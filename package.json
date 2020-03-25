@@ -1,0 +1,31 @@
+{
+  "name": "rs-dev-tools",
+  "version": "1.2.2",
+  "build": "201903141306",
+  "description": "Software publishing CLI",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "transpileSourceForm": "./dist/bin/transpileSourceForm.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RhinoLance/rsDevTools.git"
+  },
+  "author": "@RhinoLance",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.17.5",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.20.3",
+    "simple-git": "^1.126.0"
+  }
+}
