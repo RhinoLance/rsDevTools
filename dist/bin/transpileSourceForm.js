@@ -8,6 +8,11 @@ const path = require("path");
 const ts = require("typescript");
 const sass = require("node-sass");
 let targetFile = "123";
+const emojis = {
+    happy: "🙂",
+    skull: "☠️",
+    fire: "🔥"
+};
 var program = new commander_1.Command("transpileSourceForm <targetFile>")
     .version("1.0.0")
     .arguments('<targetFile>')
@@ -34,19 +39,23 @@ function processScss(source) {
         file: source,
         outFile: outputPath
     }, (err, result) => {
+        if (err) {
+            targetError(source);
+            return;
+        }
         fs.writeFile(outputPath, result.css, err => {
             if (err) {
-                error("The transpiled file could not be written to: " + outputPath);
+                error("The transpiled file could not be written.");
                 return;
             }
-            console.log("The SCSS file was succesfully transpiled to " + outputPath);
+            success(path.basename(source) + " was succesfully transpiled.");
         });
     });
 }
 function processTs(source) {
     fs.readFile(source, 'utf8', (err, data) => {
         if (err) {
-            targetError();
+            targetError(source);
             return;
         }
         const start = data.indexOf("class");
@@ -59,19 +68,22 @@ function processTs(source) {
         const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
         fs.writeFile(outputPath, transpiled, function (err) {
             if (err) {
-                error("The transpiled file could not be written to: " + outputPath);
+                error("The transpiled file could not be written.");
                 return;
             }
-            console.log("The TS file was succesfully transpiled to " + outputPath);
+            success(path.basename(source) + " was succesfully transpiled.");
         });
     });
 }
-function targetError() {
-    console.error(chalk_1.default.redBright("The specified target file could not be found"));
+function targetError(source) {
+    console.error(emojis.fire + " " + chalk_1.default.redBright("The specified target file could not be found at " + source));
     process.exit(1);
 }
+function success(message) {
+    console.log(emojis.happy + " " + chalk_1.default.greenBright(message));
+}
 function error(message) {
-    console.error(chalk_1.default.redBright(message));
+    console.error(emojis.fire + " " + chalk_1.default.redBright(message));
     process.exit(1);
 }
 try {

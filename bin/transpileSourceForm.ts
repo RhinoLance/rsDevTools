@@ -9,6 +9,11 @@ import * as sass from "node-sass";
 
 
 let targetFile: string = "123";
+const emojis = {
+	happy: "🙂",
+	skull: "☠️",
+	fire: "🔥"
+}
 
 type Processor = (build:string, targetFile: string) => Promise<boolean>;
 
@@ -46,13 +51,16 @@ function processScss(source: string) {
 		file: source,
 		outFile: outputPath
 	}, (err, result)=> {
-		
+		if( err ) {
+			targetError(source);
+			return;
+		}
 		fs.writeFile(outputPath, result.css, err => {
 			if(err) {
-				error( "The transpiled file could not be written to: " + outputPath);
+				error( "The transpiled file could not be written.");
 				return;
 			}
-			console.log("The SCSS file was succesfully transpiled to " + outputPath);
+			success(path.basename(source) + " was succesfully transpiled.");
 		});
 	});
 }
@@ -61,7 +69,7 @@ function processTs(source: string) {
 	
 	fs.readFile( source, 'utf8', (err, data)=> {
 		if( err ) {
-			targetError();
+			targetError(source);
 			return;
 		}
 
@@ -79,21 +87,27 @@ function processTs(source: string) {
 		const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
 		fs.writeFile(outputPath, transpiled, function(err) {
 			if(err) {
-				error( "The transpiled file could not be written to: " + outputPath);
+				error( "The transpiled file could not be written.");
 				return;
 			}
-			console.log("The TS file was succesfully transpiled to " + outputPath);
+			success(path.basename(source) + " was succesfully transpiled.");
 		}); 
 	});
 }
 
-function targetError() {
-	console.error( chalk.redBright( "The specified target file could not be found"));
+function targetError( source: string) {
+	console.error( emojis.fire + " " + chalk.redBright( "The specified target file could not be found at " + source));
 	process.exit(1);
 }
 
+
+
+function success(message: string) {
+    console.log(emojis.happy + " " + chalk.greenBright( message ));
+}
+
 function error(message: string){
-	console.error( chalk.redBright( message ));
+	console.error( emojis.fire + " " + chalk.redBright( message ));
 	process.exit(1);
 }
 
