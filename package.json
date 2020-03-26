@@ -1,6 +1,6 @@
 {
   "name": "rs-dev-tools",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "build": "201903141306",
   "description": "Software publishing CLI",
   "main": "./dist/index.js",
@@ -11,8 +11,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-	"watch": "tsc --watch",
-	"postversion": "git push && git push --tags"
+    "watch": "tsc --watch",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
