@@ -5,6 +5,7 @@ import chalk from "chalk";
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from "typescript";
+import * as sass from "node-sass";
 
 
 let targetFile: string = "123";
@@ -19,9 +20,46 @@ var program = new Command("transpileSourceForm <targetFile>")
 		.option( "-nt --no-tag", "Do not 'git tag' this version")
 		.parse(process.argv);
 
-function main(target: string ) {
+function main(source: string ) {
 
-	fs.readFile( target, 'utf8', (err, data)=> {
+	switch( path.extname( source )) {
+		case ".ts":
+			processTs( source );
+			break;
+		case ".scss":
+			processScss(source);
+			break
+		default:
+			processTs( source + ".ts" );
+			processScss(source + ".scss");
+
+	}
+	
+
+}
+
+function processScss(source: string) {
+	
+	const outputPath = path.join(path.dirname(source), path.basename(source, ".scss")) + "-formReady.css";
+
+	sass.render( {
+		file: source,
+		outFile: outputPath
+	}, (err, result)=> {
+		
+		fs.writeFile(outputPath, result.css, err => {
+			if(err) {
+				error( "The transpiled file could not be written to: " + outputPath);
+				return;
+			}
+			console.log("The SCSS file was succesfully transpiled to " + outputPath);
+		});
+	});
+}
+
+function processTs(source: string) {
+	
+	fs.readFile( source, 'utf8', (err, data)=> {
 		if( err ) {
 			targetError();
 			return;
@@ -38,17 +76,15 @@ function main(target: string ) {
 				}
 			}).outputText;
 
-		const outputPath = path.join(path.dirname(target), path.basename(target, ".ts")) + "-formReady.js";
+		const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
 		fs.writeFile(outputPath, transpiled, function(err) {
 			if(err) {
 				error( "The transpiled file could not be written to: " + outputPath);
 				return;
 			}
-			console.log("The file was succesfully transpiled to " + outputPath);
+			console.log("The TS file was succesfully transpiled to " + outputPath);
 		}); 
 	});
-	
-
 }
 
 function targetError() {

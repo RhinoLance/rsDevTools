@@ -8,7 +8,7 @@ npm module used to help manage versioning and publishing of projects.
 * run "npm link" to make the command available.
 
 ## Installation ##
-	npm i --save-dev https://github.com/RhinoLance/rsPublisher.git 
+	npm i --save-dev https://github.com/RhinoLance/rsDevTools.git 
 
 ## Usage ##
 When using a command in a project, add a script to call the required command.
@@ -16,5 +16,5 @@ When using a command in a project, add a script to call the required command.
 eg:
 
 	"scripts": {
-	  bumpBuild": "bumpBuild ./package.json"
+	  bumpBuild": "transpileSourceForm ./my-form.component.ts"
 	}
