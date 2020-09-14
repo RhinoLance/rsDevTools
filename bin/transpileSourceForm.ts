@@ -76,7 +76,7 @@ function processTs(source: string) {
 		const start = data.indexOf("class");
 		const classString = data.substring(start);
 
-		const transpiled = ts.transpileModule(classString, 
+		let transpiled = ts.transpileModule(classString, 
 			{ compilerOptions: 
 				{ 
 					module: ts.ModuleKind.ES2015,
@@ -84,6 +84,8 @@ function processTs(source: string) {
 				}
 			}).outputText;
 
+		transpiled = cleanExportClassStatements(transpiled);
+		
 		const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
 		fs.writeFile(outputPath, transpiled, function(err) {
 			if(err) {
@@ -93,6 +95,10 @@ function processTs(source: string) {
 			success(path.basename(source) + " was succesfully transpiled.");
 		}); 
 	});
+}
+
+function cleanExportClassStatements(jsSrc: string): string {
+	return jsSrc.replace(/^export class/g, "class")
 }
 
 function targetError( source: string) {

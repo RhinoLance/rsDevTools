@@ -60,11 +60,12 @@ function processTs(source) {
         }
         const start = data.indexOf("class");
         const classString = data.substring(start);
-        const transpiled = ts.transpileModule(classString, { compilerOptions: {
+        let transpiled = ts.transpileModule(classString, { compilerOptions: {
                 module: ts.ModuleKind.ES2015,
                 target: ts.ScriptTarget.ES2016
             }
         }).outputText;
+        transpiled = cleanExportClassStatements(transpiled);
         const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
         fs.writeFile(outputPath, transpiled, function (err) {
             if (err) {
@@ -74,6 +75,9 @@ function processTs(source) {
             success(path.basename(source) + " was succesfully transpiled.");
         });
     });
+}
+function cleanExportClassStatements(jsSrc) {
+    return jsSrc.replace(/^export class/g, "class");
 }
 function targetError(source) {
     console.error(emojis.fire + " " + chalk_1.default.redBright("The specified target file could not be found at " + source));
