@@ -83,9 +83,11 @@ function processTs(source: string) {
 					target: ts.ScriptTarget.ES2016
 				}
 			}).outputText;
-
+console.log(transpiled);
 		transpiled = cleanExportClassStatements(transpiled);
-		
+
+console.info("post");
+console.log(transpiled);
 		const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
 		fs.writeFile(outputPath, transpiled, function(err) {
 			if(err) {
@@ -98,7 +100,7 @@ function processTs(source: string) {
 }
 
 function cleanExportClassStatements(jsSrc: string): string {
-	return jsSrc.replace(/^export class/g, "class")
+	return jsSrc.replace(/export class/g, "class")
 }
 
 function targetError( source: string) {
