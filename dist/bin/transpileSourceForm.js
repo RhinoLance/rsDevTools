@@ -65,10 +65,7 @@ function processTs(source) {
                 target: ts.ScriptTarget.ES2016
             }
         }).outputText;
-        console.log(transpiled);
         transpiled = cleanExportClassStatements(transpiled);
-        console.info("post");
-        console.log(transpiled);
         const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
         fs.writeFile(outputPath, transpiled, function (err) {
             if (err) {
