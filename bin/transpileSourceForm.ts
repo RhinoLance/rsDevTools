@@ -115,7 +115,8 @@ function processTs(source: string, version: string) {
 				}
 			}).outputText;
 			
-		transpiled = cleanExportClassStatements(transpiled);
+			transpiled = cleanExportClassStatements(transpiled);
+			transpiled = cleanEmptyExportStatements(transpiled);
 
 		const output = getVersionComment(version, "js") + transpiled;
 
@@ -132,6 +133,10 @@ function processTs(source: string, version: string) {
 
 function cleanExportClassStatements(jsSrc: string): string {
 	return jsSrc.replace(/export class/g, "class")
+}
+
+function cleanEmptyExportStatements(jsSrc: string): string {
+	return jsSrc.replace(/export {};/g, "")
 }
 
 function getVersionComment(version: string, fileType: string){

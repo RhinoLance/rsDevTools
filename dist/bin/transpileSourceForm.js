@@ -92,6 +92,7 @@ function processTs(source, version) {
             }
         }).outputText;
         transpiled = cleanExportClassStatements(transpiled);
+        transpiled = cleanEmptyExportStatements(transpiled);
         const output = getVersionComment(version, "js") + transpiled;
         const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
         fs.writeFile(outputPath, output, function (err) {
@@ -105,6 +106,9 @@ function processTs(source, version) {
 }
 function cleanExportClassStatements(jsSrc) {
     return jsSrc.replace(/export class/g, "class");
+}
+function cleanEmptyExportStatements(jsSrc) {
+    return jsSrc.replace(/export {};/g, "");
 }
 function getVersionComment(version, fileType) {
     if (!version) {
