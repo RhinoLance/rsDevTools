@@ -9,41 +9,69 @@ import * as sass from "node-sass";
 
 
 let targetFile: string = "123";
+let formVersion: string = "";
 const emojis = {
 	happy: "🙂",
 	skull: "☠️",
 	fire: "🔥"
 }
 
-type Processor = (build:string, targetFile: string) => Promise<boolean>;
-
-var program = new Command("transpileSourceForm <targetFile>")
+var program = new Command("transpileSourceForm <targetFile> [version]")
 		.version( "1.0.0" )
-		.arguments('<targetFile>')
-		.action( target => targetFile = target )
-		.option( "-t --type [type]", "Specify the type of file to update [ts, html, scss].  If not specified it will transpile all files which match the given targetFile.")
+		.arguments('<targetFile> [version]')
+		.action( (target, version) => {
+			targetFile = target;
+			formVersion = version || "";
+		})
+		.option( "-t --type <string>", "Specify the type of file to update [ts, html, scss].  If not specified it will transpile all files which match the given targetFile.")
 		.option( "-nt --no-tag", "Do not 'git tag' this version")
 		.parse(process.argv);
 
-function main(source: string ) {
+function main(source: string, version: string = "" ) {
 
 	switch( path.extname( source )) {
 		case ".ts":
-			processTs( source );
+			processTs( source, formVersion );
 			break;
 		case ".scss":
-			processScss(source);
+			processScss(source, formVersion);
+			break
+		case ".html":
+			processHtml(source, formVersion);
 			break
 		default:
-			processTs( source + ".ts" );
-			processScss(source + ".scss");
+			processTs( source + ".ts", formVersion );
+			processScss(source + ".scss", formVersion);
+			processHtml(source + ".html", formVersion);
 
 	}
 	
 
 }
 
-function processScss(source: string) {
+function processHtml(source: string, version: string) {
+	
+	const outputPath = path.join(path.dirname(source), path.basename(source, ".html")) + "-formReady.html";
+
+	fs.readFile( source, 'utf8', (err, data)=> {
+		if( err ) {
+			targetError(source);
+			return;
+		}
+
+		const output = getVersionComment(version, "html") + data;
+
+		fs.writeFile(outputPath, output, function(err) {
+			if(err) {
+				error( "The transpiled file could not be written.");
+				return;
+			}
+			success(path.basename(source) + " was succesfully transpiled.");
+		}); 
+	});
+}
+
+function processScss(source: string, version: string) {
 	
 	const outputPath = path.join(path.dirname(source), path.basename(source, ".scss")) + "-formReady.css";
 
@@ -55,7 +83,10 @@ function processScss(source: string) {
 			targetError(source);
 			return;
 		}
-		fs.writeFile(outputPath, result.css, err => {
+
+		const output = getVersionComment(version, "css") + result.css;
+
+		fs.writeFile(outputPath, output, err => {
 			if(err) {
 				error( "The transpiled file could not be written.");
 				return;
@@ -65,7 +96,7 @@ function processScss(source: string) {
 	});
 }
 
-function processTs(source: string) {
+function processTs(source: string, version: string) {
 	
 	fs.readFile( source, 'utf8', (err, data)=> {
 		if( err ) {
@@ -86,8 +117,10 @@ function processTs(source: string) {
 			
 		transpiled = cleanExportClassStatements(transpiled);
 
+		const output = getVersionComment(version, "js") + transpiled;
+
 		const outputPath = path.join(path.dirname(source), path.basename(source, ".ts")) + "-formReady.js";
-		fs.writeFile(outputPath, transpiled, function(err) {
+		fs.writeFile(outputPath, output, function(err) {
 			if(err) {
 				error( "The transpiled file could not be written.");
 				return;
@@ -99,6 +132,29 @@ function processTs(source: string) {
 
 function cleanExportClassStatements(jsSrc: string): string {
 	return jsSrc.replace(/export class/g, "class")
+}
+
+function getVersionComment(version: string, fileType: string){
+	
+	if( !version ){
+		return "";
+	}
+
+	let template: string = "";
+
+	switch( fileType ){
+		case "html":
+			template = "<!-- PLACEHOLDER -->";
+			break;
+		case "css":
+		case "js":
+		case "ts":
+			template = "/* PLACEHOLDER */";
+	}
+
+	const output = template.replace("PLACEHOLDER", `Version: ${version}`);
+	return output + "\n\n";
+	
 }
 
 function targetError( source: string) {
@@ -118,7 +174,7 @@ function error(message: string){
 }
 
 try{
-main( targetFile );
+	main( targetFile, formVersion );
 }
 catch( error ){
 	console.error( chalk.redBright( "\nERROR: " + error + "\n" ));
