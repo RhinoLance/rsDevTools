@@ -145,3 +145,4 @@ catch (error) {
     console.error(chalk_1.default.redBright("\nERROR: " + error + "\n"));
     process.exit(1);
 }
+//# sourceMappingURL=transpileSourceForm.js.map

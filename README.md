@@ -1,20 +1,5 @@
-# rsPublisher
-npm module used to help manage versioning and publishing of projects.
+#Debugging info
 
-## To add new commands: ##
-* Add new /bin/\<commandName\>.ts
-* Add a reference in package.json "bin" list.
-* Ensure the transpiled .js version exists in the /dist folder.
-* run "npm link" to make the command available.
-
-## Installation ##
-	npm i --save-dev https://github.com/RhinoLance/rsDevTools.git 
-
-## Usage ##
-When using a command in a project, add a script to call the required command.
-
-eg:
-
-	"scripts": {
-	  bumpBuild": "transpileSourceForm ./my-form.component.ts"
-	}
+##UploadSourceFormContent
+If it won't connect to localhost at 127.0.0.1, run the following command
+	netsh http add iplisten 127.0.0.1

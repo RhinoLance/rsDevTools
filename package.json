@@ -6,13 +6,15 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "transpileSourceForm": "./dist/bin/transpileSourceForm.js"
+    "transpileSourceForm": "./dist/bin/transpileSourceForm.js",
+    "uploadSourceFormContent": "./dist/bin/uploadSourceFormContent.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "watch": "tsc --watch",
-    "postversion": "git push && git push --tags"
+	"postversion": "git push && git push --tags",
+	"debug-uploadSrcFormContent": "node dist/bin/uploadSourceFormContent.js"
   },
   "repository": {
     "type": "git",
@@ -22,13 +24,16 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.17.5",
+    "@types/node-fetch": "^2.5.7",
     "@types/node-sass": "^4.11.0",
-    "typescript": "^2.8.3"
+    "typescript": "^4.1.2"
   },
   "dependencies": {
     "chalk": "^2.4.1",
     "commander": "^2.20.3",
+    "node-fetch": "^2.6.1",
     "node-sass": "^4.13.1",
+    "rxjs": "^6.6.3",
     "simple-git": "^1.126.0"
   }
 }

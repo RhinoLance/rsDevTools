@@ -1,6 +1,7 @@
 #!/usr/bin/env node 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.hellowWorld = void 0;
 function hellowWorld() {
     return "Hellow world";
 }
@@ -25,3 +26,4 @@ class Startup {
 
 Startup.main();
 */ 
+//# sourceMappingURL=index.js.map
