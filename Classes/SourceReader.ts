@@ -11,7 +11,7 @@ export class SourceReader {
 	}
 
 	public getSourceParts( componentName: string ): ISourceFormParts {
-		
+
 		const output: ISourceFormParts = <ISourceFormParts><unknown>{};
 		const srcPath = path.join(this.srcRoot, `${componentName}-formReady`);
 
@@ -24,7 +24,14 @@ export class SourceReader {
 
 	private getFileContents(path: string): string {
 
-		return fs.readFileSync(path, 'utf8');
+		try{
+			return fs.readFileSync(path, 'utf8');
+		}
+		catch(ex) {
+			const fullPath = fs.realpathSync(path);
+			const message = `Could not read file at "${fullPath}"`;
+			throw Error(message);
+		}
 
 	}
 

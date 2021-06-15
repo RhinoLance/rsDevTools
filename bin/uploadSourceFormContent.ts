@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 import { Command } from "commander";
 import chalk from "chalk";
@@ -53,21 +53,27 @@ function main(configPath?: string, configName?: string ) {
 	const config = getConfig(configPath, configName);
 
 	const processor = new ModuleProcessor(config);
-	
+
 	const promiseList: Promise<void>[] = [];
 	config.componentMap.map( v=> {
-		
+
 		success(`Retrieving source for ${v.componentName}`);
 		const reader = new SourceReader(v.sourceFolder);
-		const parts = reader.getSourceParts(v.componentName);
-		
-		success(`Updating module class ${v.classId}`);
-		promiseList.push( processor.updateClass(v.classId, parts ) );
+
+		try{
+			const parts = reader.getSourceParts(v.componentName);
+			success(`Updating module class ${v.classId}`);
+			promiseList.push( processor.updateClass(v.classId, parts ) );
+		}
+		catch (ex) {
+			error( ex.message );
+		}
+
 	});
 
 	Promise.all(promiseList)
 	.then(result => {
-		
+
 		success(`Pushing module to server: ${config.name}`);
 		return processor.pushModuleToServer();
 	})
