@@ -13,7 +13,7 @@ export class SourceReader {
 	public getSourceParts( componentName: string ): ISourceFormParts {
 
 		const output: ISourceFormParts = <ISourceFormParts><unknown>{};
-		const srcPath = path.join(this.srcRoot, `${componentName}-formReady`);
+		const srcPath = path.resolve(this.srcRoot, `${componentName}-formReady`);
 
 		output.css = this.getFileContents(`${srcPath}.css`);
 		output.html = this.getFileContents(`${srcPath}.html`);
@@ -22,13 +22,13 @@ export class SourceReader {
 		return output;
 	}
 
-	private getFileContents(path: string): string {
+	private getFileContents(filePath: string): string {
 
 		try{
-			return fs.readFileSync(path, 'utf8');
+			return fs.readFileSync(filePath, 'utf8');
 		}
 		catch(ex) {
-			const fullPath = fs.realpathSync(path);
+			const fullPath = path.resolve(filePath);
 			const message = `Could not read file at "${fullPath}"`;
 			throw Error(message);
 		}
