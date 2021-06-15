@@ -1,0 +1,1 @@
+{"version":3,"file":"appState.defaults.js","sourceRoot":"","sources":["../../../../Resources/RhinoSpectGui/assets/appState.defaults.ts"],"names":[],"mappings":";;;AAEA,IAAI,eAAe,GAAqB;IACpC,SAAS,EAAE,CAAC;IACZ,YAAY,EAAE,IAAI;IAClB,GAAG,EAAE;QACD,SAAS,EAAE,IAAI;QACf,IAAI,EAAE,EAAE;QACR,MAAM,EAAE,CAAC,CAAC,OAAO,EAAE,QAAQ,CAAC;QAC5B,eAAe,EAAE,EAAE;KAClB;CACR,CAAA;AAEO,0CAAe"}
