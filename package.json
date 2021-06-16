@@ -10,7 +10,7 @@
     "uploadSourceFormContent": "./dist/bin/uploadSourceFormContent.js"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-ts --config=jasmine.json",
+    "test": "jasmine-ts --config=jasmine.json",
     "build": "tsc",
     "watch": "tsc --watch",
     "postversion": "git push && git push --tags",
