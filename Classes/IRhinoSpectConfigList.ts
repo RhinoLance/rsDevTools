@@ -3,16 +3,18 @@ export interface IRhinoSpectConfigList {
 }
 
 export interface IRhinoSpectConfig {
-	
+
 	name: string,
 	url: string,
 	token: string,
 	moduleId: string,
-	componentMap: [
-		{
-			classId: string
-			componentName: string,
-			sourceFolder: string,
-		}
-	]
+	classMap: IRhinoSpectClassMap[]
+}
+
+export interface IRhinoSpectClassMap {
+	className: string,
+	classId: string,
+	componentName: string,
+	sourceFolder: string,
+	templateFilePath: string,
 }
