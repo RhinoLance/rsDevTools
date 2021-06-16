@@ -1,7 +1,7 @@
-import { IRhinoSpectConfig } from "./IRhinoSpectConfigList";
+import { IRhinoSpectClassMap, IRhinoSpectConfig } from "./IRhinoSpectConfigList";
 import { ISourceFormParts } from "./ISourceFormParts";
 import { ApiService } from "./RhinoSpect.Api"
-import { Module } from "./Module";
+import { IClassDefinition, IModuleDto, Module } from "./Module";
 
 export class ModuleProcessor {
 
@@ -25,22 +25,38 @@ export class ModuleProcessor {
 			.catch( err => {
 				throw( `RhinoSpect module could not be retrieved for ${this.config.moduleId}.\nError: ${err}`);
 			}));
-	
+
 	}
 
-	public updateClass( classId: string, sourceParts: ISourceFormParts ): Promise<void>{
+	public updateClass( classMap: IRhinoSpectClassMap, sourceParts: ISourceFormParts, template?: IClassDefinition ): Promise<void>{
 
 		return this.getModule()
 			.then( module => {
-				
-				const cls = module.definition?.find(v=> v.id == classId);
-				if( !cls ){
-					throw( "Class not found with ID: " + classId);
+
+				let modClass = module.definition?.find(v=> v.id == classMap.classId);
+
+				if( template ){
+					if( modClass == undefined){
+						module.definition?.push(template);
+						modClass = template;
+					}
+					else{
+						Object.assign(modClass, template);
+					}
+				}
+				else{
+					if( modClass == undefined){
+						throw( `A class definition could not be found as either a template or the server's module for "${classMap.className}"`);
+					}
 				}
 
-				cls.source.css = sourceParts.css;
-				cls.source.html = sourceParts.html;
-				cls.source.javascript = sourceParts.javascript;
+				Object.assign(modClass, template);
+
+
+
+				modClass.source.css = sourceParts.css;
+				modClass.source.html = sourceParts.html;
+				modClass.source.javascript = sourceParts.javascript;
 
 				return;
 			}

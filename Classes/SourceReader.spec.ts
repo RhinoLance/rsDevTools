@@ -1,4 +1,3 @@
-import { fileURLToPath } from "url";
 import { SourceReader } from "./SourceReader";
 
 describe("SourceReader", () => {
@@ -17,7 +16,6 @@ describe("SourceReader", () => {
 				fail("Exected the exception to have a message property");
 			}
 
-			console.log(ex.message);
 			expect(true).toBe(true);
 		}
     });
@@ -27,7 +25,7 @@ describe("SourceReader", () => {
 		const sr = new SourceReader("dummy");
 
 		try{
-			(sr as any).getFileContents("SourceReader.spec.ts");
+			(sr as any).getFileContents("Classes/SourceReader.spec.ts");
 			expect(true).toBe(true);
 		}
 		catch(ex){
@@ -35,8 +33,7 @@ describe("SourceReader", () => {
 				fail("Exected the exception to have a message property");
 			}
 
-			console.log(ex.message);
-			fail("The file was not found");
+			fail(`The file was not found: ${ex.message}`);
 		}
     });
 

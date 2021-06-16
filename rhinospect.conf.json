@@ -5,36 +5,13 @@
 			"url": "http://localhost:8817",
 			"token": "ec9b5570-357c-4e9a-beb5-6fed4b9634a0",
 			"moduleId": "08e6c784-58af-455d-8f38-034b6ce9e730",
-			"componentMap": [
+			"classMap": [
 				{
 					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\hub01",
 					"componentName": "hub01.component",
-					"classId": "Hub01"
-				},
-				{
-					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\vehicle01",
-					"componentName": "vehicle01.component",
-					"classId": "Vehicle01"
-				},
-				{
-					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\audit-emp",
-					"componentName": "audit-emp.component",
-					"classId": "Audit_-_EMP"
-				},
-				{
-					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\audit-finalize",
-					"componentName": "audit-finalize.component",
-					"classId": "Audit_-_Finalize"
-				},
-				{
-					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\audit-mobilise",
-					"componentName": "audit-mobilise.component",
-					"classId": "Audit_-_Mobilise"
-				},
-				{
-					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\spare-parts01",
-					"componentName": "spare-parts01.component",
-					"classId": "Spare_Parts"
+					"classId": "Hub01",
+					"className": "Hub",
+					"templateFilePath": ""
 				}
 			]
 		}

@@ -1,0 +1,102 @@
+{
+	"name": "test",
+	"password": "test",
+	"colour": "#ababab",
+	"archiveAge": 30,
+	"mapFeatures": "[]",
+	"classList": [
+		{
+			"name": "test",
+			"id": "test",
+			"type": "source",
+			"icon": "",
+			"statusDef": [],
+			"ratingDef": [],
+			"ratingDefId": "majorModerateMinor",
+			"fieldList": [],
+			"source": {
+				"mode": "html",
+				"html": "",
+				"javascript": "",
+				"css": ""
+			},
+			"visible": true
+		},
+		{
+			"name": "Built Environment",
+			"id": "Built_Environment",
+			"type": "source",
+			"icon": "{\n    \"type\":\"IconColourDrop\",\n    \"lookupField\":\"rating\",\n    \"markerIndex\":{\n        \"0\": {\n            \"class\": \"test\",\n            \"colour\": \"#ED1C24\",\n            \"icon\": \"\"\n        },\n        \"1\": {\n            \"class\": \"test\",\n            \"colour\": \"#cccccc\",\n            \"icon\": \"\"\n        },\n        \"2\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"3\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"4\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"10\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"11\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"12\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"13\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"20\": {\n            \"class\": \"test\",\n            \"colour\": \"#f67036\",\n            \"icon\": \"\"\n        }\n    },\n    \"default\":{\n        \"class\": \"test\",\n        \"colour\": \"#cccccc\",\n        \"icon\": \"\"\n    }\n}",
+			"statusDef": [
+				{
+					"value": 0,
+					"text": "Closed",
+					"colour": "#4f372d",
+					"cannotEdit": true,
+					"$$hashKey": "object:32"
+				},
+				{
+					"value": 1,
+					"text": "Open",
+					"colour": "#edc951",
+					"cannotEdit": true,
+					"$$hashKey": "object:33"
+				},
+				{
+					"value": 2,
+					"text": "Pending Close",
+					"colour": "#00a0b0",
+					"$$hashKey": "object:19"
+				}
+			],
+			"ratingDef": "[{\"value\":0,\"text\":\"N/A\",\"colour\":\"gray\"},{\"value\":1,\"text\":\"Major\",\"colour\":\"#d96459\"},{\"value\":2,\"text\":\"Moderate\",\"colour\":\"#f2ae72\"},{\"value\":3,\"text\":\"Minor\",\"colour\":\"#f2e394\"},{\"value\":10,\"text\":\"Observation - Pre\",\"colour\":\"#d6d4e0\"},{\"value\":11,\"text\":\"Observation - Mid\",\"colour\":\"#b8a9c9\"},{\"value\":12,\"text\":\"Observation - Post\",\"colour\":\"green\"},{\"value\":13,\"text\":\"Observation - Ad-hoc\",\"colour\":\"#622569\"},{\"value\":20,\"text\":\"Near Miss\",\"colour\":\"#e06377\"}]",
+			"ratingDefId": "custom",
+			"fieldList": [],
+			"source": {
+				"mode": "html",
+				"html": "\r\n<div>\r\n\t<label for='actionTaken'>Action Taken</label>\r\n\t<textarea [(ngModel)]=\"inspection.data.actionTaken\" id='actionTaken' name='actionTaken' placeholder='What actions have you taken to address this issue, if any?'></textarea>\r\n</div>\r\n<div>\r\n\t<label for='actionRequired'>Action Required</label>\r\n<textarea [(ngModel)]=\"inspection.data.actionRequired\" id='actionRequired' name='actionRequired' placeholder='What actions will be required to address this issue?'></textarea>\r\n</div>\r\n<div>\r\n\t<label for='poc'>Unit/Point of contact</label>\r\n\t<input [(ngModel)]=\"inspection.data.poc\" type='text' id='poc' name='poc' placeholder='Unit/POC where possible' />\r\n</div>\r\n<br />\r\n<div id=\"dynamicContainer\">\r\n\t<select id='add' class='tsAdd' [(ngModel)]=\"inspection.data.category\" (change)=\"setActiveIssue()\" required>\r\n\t\t<option [value]='undefined'>-- Select an issue --</option>\r\n\t\t<option *ngFor=\"let category of tsData\" [value]=\"category.field\" >{{category.title}}</option>\r\n\t</select>\r\n\r\n\t<div *ngIf=\"activeIssue\">\r\n\t\t<div *ngIf=\"activeIssue.l2\">\r\n\t\t\t<div class=\"tsClassUl\">\r\n\t\t\t\t<div *ngFor=\"let element of activeIssue.l2\" [ngSwitch]=\"element.type\">\r\n\t\t\t\t\t<label>{{element.title}}</label>\r\n\t\t\t\t\t<select *ngSwitchCase=\"'bool'\" [(ngModel)]=\"inspection.data[element.field]\">\r\n\t\t\t\t\t\t<option value=\"No\">No</option>\r\n\t\t\t\t\t\t<option value=\"YES\">Yes</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<select *ngSwitchCase=\"'ddl'\" [(ngModel)]=\"inspection.data[element.field]\">\r\n\t\t\t\t\t\t<option [value]='undefined'>-- Select an option --</option>\r\n            <option *ngFor=\"let option of getDdlValues(element.values)\" [value]=\"option\" >{{option}}</option>\r\n\t\t\t\t\t</select>\r\n\r\n          <div *ngSwitchCase=\"'bioSub'\">\r\n\r\n            <select [(ngModel)]=\"inspection.data[element.field]\">\r\n              <option selected=\"selected\" value=\"\">-- Select an option-- </option>\r\n              <option *ngFor=\"let option of getBioSubDdlValues(inspection.data['env_bs_category'])\" [value]=\"option\" >{{option}}</option>\r\n            </select>\r\n            <input *ngIf=\"inspection.data['env_bs_type'] == 'Other'\" type=\"text\" placeholder=\"Please provide details of 'Other'\" [(ngModel)]=\"inspection.data['env_bs_type_other']\"  />\r\n            \r\n          </div>\r\n\r\n\t\t\t\t\t<textarea *ngSwitchCase=\"'textarea'\" [placeholder]=\"element.placeholder || ''\" [(ngModel)]=\"inspection.data[element.field]\"></textarea>\r\n\t\t\t\t\t<input *ngSwitchDefault [type]=\"element.type\" [placeholder]=\"element.placeholder || ''\" [(ngModel)]=\"inspection.data[element.field]\" />\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n<h4>Remediation <br/><small>for DAMCON use only</small></h4>\r\n<div>\r\n    <label for='remediation'>Remediation Solution</label>\r\n    <select [(ngModel)]=\"inspection.data.remediation\" id='remediation' name='remediation'>\r\n        <option [value]='undefined'>--- Select a Solution ---</option>\r\n        <option value='Contracted'>Contracted</option>\r\n        <option value='Army Engineer elements'>Army Engineer elements</option>\r\n        <option value='DAMCON elements'>DAMCON elements</option>\r\n        <option value='Field soldiers'>Field soldiers</option>\r\n        <option value='Impact area - Delayed'>Impact area - Delayed</option>\r\n        <option value='Nil remediation viable'>Nil remediation viable</option>\r\n        <option value='Nil remediation required'>Nil remediation required</option>\r\n    </select>\r\n</div>\r\n<div>\r\n\t<label for='repairCost'>Indicative cost of repair</label>\r\n\t<input [(ngModel)]=\"inspection.data.repairCost\" type='number' id='repairCost' name='repairCost' placeholder='$' />\r\n</div>\r\n<div>\r\n\t<label for='hoursEffort'>Hours of effort</label>\r\n\t<input [(ngModel)]=\"inspection.data.hoursEffort\" type='number' id='hoursEffort' name='hoursEffort' placeholder='Hours of effort required' />\r\n</div>\r\n",
+				"javascript": "class {\r\n\r\n\tonInit(isNew) {\r\n    \r\n        console.log(\"The form is initialising.\");\r\n\t\tthis.activeIssue = null;\r\n\t\t\r\n\t\tthis.tsData  = [\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Airfields\",\r\n\t\t\t\t\"field\": \"airfield\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Runway, Taxiway, Hardstand, Air Traffic Control structures, Navigational beacon/lighting, Other\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Roads and Tracks\",\r\n\t\t\t\t\"field\": \"road\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Cattle grid, Culvert or Bridge, Obstacles, Roadside furnature, Side and Tailout drain, Surface damage, Other\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Facilities\",\r\n\t\t\t\t\"field\": \"facilities\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Beachmaster hut, Firing range, Sentry post, Wash point, Waste transfer station, Water tank, Comms tower, Other\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Infrastructure\",\r\n\t\t\t\t\"field\": \"infrastructure\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Fence, Gate, Water tanks, Stock watering point or shelter\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Scale A Accom and Buildings\",\r\n\t\t\t\t\"field\": \"buildings\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Ports and Marinas\",\r\n\t\t\t\t\"field\": \"portsMarinas\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Warf or Jetty, Boat ramp, Other\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Heritage\",\r\n\t\t\t\t\"field\": \"heritage\",\r\n\t\t\t\t\"l2\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Type\",\r\n\t\t\t\t\t\t\"field\": \"type\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Aboriginal, Historic\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"title\": \"Issue\",\r\n\t\t\t\t\t\t\"field\": \"issue\",\r\n\t\t\t\t\t\t\"type\": \"ddl\",\r\n\t\t\t\t\t\t\"values\": \"Damage, Discovery, Removal, Trespass\"\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Other\",\r\n\t\t\t\t\"field\": \"other\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t}\r\n\t\t];\r\n\r\n    if( this.inspection.data.issueClass ) {\r\n      this.setActiveIssue();\r\n    }\r\n  }\r\n\r\n  setActiveIssue() {\r\n    var that = this;\r\n    this.activeIssue = this.tsData.find( function(v){ return v.field === that.inspection.data.category;});\r\n    \r\n    try{\r\n        this._cdRef.detectChanges();\r\n    }\r\n    catch(ex){}\r\n  }\r\n\r\n    getDdlValues( value ){\r\n\t\treturn value.split(/\\s?,\\s?/);\r\n\t}\r\n\r\n  getBioSubDdlValues( key ) {\r\n    \r\n    if( !key ) return [];\r\n\r\n    try{\r\n    return this.getDdlValues( this.tsData.find( function(v){ return v.field == \"biosecurity\"; } )\r\n      .l2.find( function(v){ return v.field == \"env_bs_type\"; })\r\n      .l3.find( function(v){ return v.key == key; }).values);\r\n    }\r\n    catch(ex){\r\n      return [];\r\n    }\r\n  }\r\n\r\n  onValidate( inspection ){return true;}\r\n\r\n  onSave( inspection ){return true;}\r\n\r\n}",
+				"css": "select.tsAdd {\r\nbackground-color:#f1d000;\r\n-webkit-appearance:none;\r\nmargin-top: 1em;\r\n}\r\n\r\nh4 {\r\n    margin-top:; 3em;\r\n    color:#888888;\r\n}\r\n\r\nh4 small {\r\n    color: #bbbbbb;\r\n}"
+			},
+			"visible": true
+		},
+		{
+			"name": "March-Out",
+			"id": "March-Out",
+			"type": "source",
+			"icon": "{\n    \"type\":\"IconColourDrop\",\n    \"lookupField\":\"rating\",\n    \"markerIndex\":{\n        \"0\": {\n            \"class\": \"test\",\n            \"colour\": \"#ED1C24\",\n            \"icon\": \"\"\n        },\n        \"1\": {\n            \"class\": \"test\",\n            \"colour\": \"#cccccc\",\n            \"icon\": \"\"\n        },\n        \"2\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"3\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"4\": {\n            \"class\": \"test\",\n            \"colour\": \"#e12121\",\n            \"icon\": \"\"\n        },\n        \"10\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"11\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"12\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"13\": {\n            \"class\": \"test\",\n            \"colour\": \"#39643A\",\n            \"icon\": \"\"\n        },\n        \"20\": {\n            \"class\": \"test\",\n            \"colour\": \"#f67036\",\n            \"icon\": \"\"\n        }\n    },\n    \"default\":{\n        \"class\": \"test\",\n        \"colour\": \"#cccccc\",\n        \"icon\": \"\"\n    }\n}",
+			"statusDef": [
+				{
+					"value": 0,
+					"text": "Closed",
+					"colour": "#4f372d",
+					"cannotEdit": true,
+					"$$hashKey": "object:53"
+				},
+				{
+					"value": 1,
+					"text": "Open",
+					"colour": "#edc951",
+					"cannotEdit": true,
+					"$$hashKey": "object:54"
+				},
+				{
+					"value": 2,
+					"text": "Pending Close",
+					"colour": "#00a0b0",
+					"$$hashKey": "object:36"
+				}
+			],
+			"ratingDef": "[{\"value\":0,\"text\":\"N/A\",\"colour\":\"gray\"},{\"value\":1,\"text\":\"Major\",\"colour\":\"#d96459\"},{\"value\":2,\"text\":\"Moderate\",\"colour\":\"#f2ae72\"},{\"value\":3,\"text\":\"Minor\",\"colour\":\"#f2e394\"},{\"value\":10,\"text\":\"Observation - Pre\",\"colour\":\"#d6d4e0\"},{\"value\":11,\"text\":\"Observation - Mid\",\"colour\":\"#b8a9c9\"},{\"value\":12,\"text\":\"Observation - Post\",\"colour\":\"green\"},{\"value\":13,\"text\":\"Observation - Ad-hoc\",\"colour\":\"#622569\"},{\"value\":20,\"text\":\"Near Miss\",\"colour\":\"#e06377\"}]",
+			"ratingDefId": "custom",
+			"fieldList": [],
+			"source": {
+				"mode": "html",
+				"html": "\r\n<div>\r\n\t<label for='actionTaken'>Action Taken</label>\r\n\t<textarea [(ngModel)]=\"inspection.data.actionTaken\" id='actionTaken' name='actionTaken' placeholder='What actions have you taken to address this issue, if any?'></textarea>\r\n</div>\r\n<div>\r\n\t<label for='actionRequired'>Action Required</label>\r\n<textarea [(ngModel)]=\"inspection.data.actionRequired\" id='actionRequired' name='actionRequired' placeholder='What actions will be required to address this issue?'></textarea>\r\n</div>\r\n<div>\r\n\t<label for='poc'>Unit/Point of contact</label>\r\n\t<input [(ngModel)]=\"inspection.data.poc\" type='text' id='poc' name='poc' placeholder='Unit/POC where possible' />\r\n</div>\r\n<br />\r\n<div id=\"dynamicContainer\">\r\n\t<select id='add' class='tsAdd' [(ngModel)]=\"inspection.data.category\" (change)=\"setActiveIssue()\" required>\r\n\t\t<option [value]='undefined'>-- Select an issue --</option>\r\n\t\t<option *ngFor=\"let category of tsData\" [value]=\"category.field\" >{{category.title}}</option>\r\n\t</select>\r\n\r\n\t<div *ngIf=\"activeIssue\">\r\n\t\t<div *ngIf=\"activeIssue.l2\">\r\n\t\t\t<div class=\"tsClassUl\">\r\n\t\t\t\t<div *ngFor=\"let element of activeIssue.l2\" [ngSwitch]=\"element.type\">\r\n\t\t\t\t\t<label>{{element.title}}</label>\r\n\t\t\t\t\t<select *ngSwitchCase=\"'bool'\" [(ngModel)]=\"inspection.data[element.field]\">\r\n\t\t\t\t\t\t<option value=\"No\">No</option>\r\n\t\t\t\t\t\t<option value=\"YES\">Yes</option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t<select *ngSwitchCase=\"'ddl'\" [(ngModel)]=\"inspection.data[element.field]\">\r\n\t\t\t\t\t\t<option [value]='undefined'>-- Select an option --</option>\r\n            <option *ngFor=\"let option of getDdlValues(element.values)\" [value]=\"option\" >{{option}}</option>\r\n\t\t\t\t\t</select>\r\n\r\n          <div *ngSwitchCase=\"'bioSub'\">\r\n\r\n            <select [(ngModel)]=\"inspection.data[element.field]\">\r\n              <option selected=\"selected\" value=\"\">-- Select an option-- </option>\r\n              <option *ngFor=\"let option of getBioSubDdlValues(inspection.data['env_bs_category'])\" [value]=\"option\" >{{option}}</option>\r\n            </select>\r\n            <input *ngIf=\"inspection.data['env_bs_type'] == 'Other'\" type=\"text\" placeholder=\"Please provide details of 'Other'\" [(ngModel)]=\"inspection.data['env_bs_type_other']\"  />\r\n            \r\n          </div>\r\n\r\n\t\t\t\t\t<textarea *ngSwitchCase=\"'textarea'\" [placeholder]=\"element.placeholder || ''\" [(ngModel)]=\"inspection.data[element.field]\"></textarea>\r\n\t\t\t\t\t<input *ngSwitchDefault [type]=\"element.type\" [placeholder]=\"element.placeholder || ''\" [(ngModel)]=\"inspection.data[element.field]\" />\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n<h4>Remediation <br/><small>for DAMCON use only</small></h4>\r\n<div>\r\n    <label for='remediation'>Remediation Solution</label>\r\n    <select [(ngModel)]=\"inspection.data.remediation\" id='remediation' name='remediation'>\r\n        <option [value]='undefined'>--- Select a Solution ---</option>\r\n        <option value='Contracted'>Contracted</option>\r\n        <option value='Army Engineer elements'>Army Engineer elements</option>\r\n        <option value='DAMCON elements'>DAMCON elements</option>\r\n        <option value='Field soldiers'>Field soldiers</option>\r\n        <option value='Impact area - Delayed'>Impact area - Delayed</option>\r\n        <option value='Nil remediation viable'>Nil remediation viable</option>\r\n        <option value='Nil remediation required'>Nil remediation required</option>\r\n    </select>\r\n</div>\r\n<div>\r\n\t<label for='repairCost'>Indicative cost of repair</label>\r\n\t<input [(ngModel)]=\"inspection.data.repairCost\" type='number' id='repairCost' name='repairCost' placeholder='$' />\r\n</div>\r\n<div>\r\n\t<label for='hoursEffort'>Hours of effort</label>\r\n\t<input [(ngModel)]=\"inspection.data.hoursEffort\" type='number' id='hoursEffort' name='hoursEffort' placeholder='Hours of effort required' />\r\n</div>\r\n",
+				"javascript": "class {\r\n\r\n\tonInit(isNew) {\r\n    \r\n        console.log(\"The form is initialising.\");\r\n\t\tthis.activeIssue = null;\r\n\t\t\r\n\t\tthis.tsData  = [\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Defence stores/equipment remain\",\r\n\t\t\t\t\"field\": \"stores\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Rubbish\",\r\n\t\t\t\t\"field\": \"rubbish\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Field latrine not backfilled and signposted\",\r\n\t\t\t\t\"field\": \"latrine\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Targets/Signage not removed\",\r\n\t\t\t\t\"field\": \"signage\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Not tidy\",\r\n\t\t\t\t\"field\": \"tidy\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Water tanks not refilled\",\r\n\t\t\t\t\"field\": \"waterTanks\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"title\": \"Other\",\r\n\t\t\t\t\"field\": \"other\",\r\n\t\t\t\t\"l2\": []\r\n\t\t\t}\r\n\t\t\t\r\n\t\t];\r\n\r\n    if( this.inspection.data.issueClass ) {\r\n      this.setActiveIssue();\r\n    }\r\n  }\r\n\r\n  setActiveIssue() {\r\n    var that = this;\r\n    this.activeIssue = this.tsData.find( function(v){ return v.field === that.inspection.data.category;});\r\n  }\r\n\r\n    getDdlValues( value ){\r\n\t\treturn value.split(/\\s?,\\s?/);\r\n\t}\r\n\r\n  getBioSubDdlValues( key ) {\r\n    \r\n    if( !key ) return [];\r\n\r\n    try{\r\n    return this.getDdlValues( this.tsData.find( function(v){ return v.field == \"biosecurity\"; } )\r\n      .l2.find( function(v){ return v.field == \"env_bs_type\"; })\r\n      .l3.find( function(v){ return v.key == key; }).values);\r\n    }\r\n    catch(ex){\r\n      return [];\r\n    }\r\n  }\r\n\r\n  onValidate( inspection ){return true;}\r\n\r\n  onSave( inspection ){return true;}\r\n\r\n}\t\t",
+				"css": "select.tsAdd {\r\nbackground-color:#f1d000;\r\n-webkit-appearance:none;\r\nmargin-top: 1em;\r\n}\r\n\r\nh4 {\r\n    margin-top:; 3em;\r\n    color:#888888;\r\n}\r\n\r\nh4 small {\r\n    color: #bbbbbb;\r\n}"
+			},
+			"visible": false
+		}
+	]
+}

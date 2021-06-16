@@ -34,7 +34,6 @@ catch( error ){
 	process.exit(1);
 }
 
-
 function success(message: string) {
 	console.log(emojis.happy + " " + chalk.greenBright( message ));
 }
@@ -55,15 +54,18 @@ function main(configPath?: string, configName?: string ) {
 	const processor = new ModuleProcessor(config);
 
 	const promiseList: Promise<void>[] = [];
-	config.componentMap.map( v=> {
+	config.classMap.map( v=> {
 
 		success(`Retrieving source for ${v.componentName}`);
 		const reader = new SourceReader(v.sourceFolder);
 
 		try{
 			const parts = reader.getSourceParts(v.componentName);
+			const template = JSON.parse(reader.getFileContents(v.templateFilePath));
+
 			success(`Updating module class ${v.classId}`);
-			promiseList.push( processor.updateClass(v.classId, parts ) );
+
+			promiseList.push( processor.updateClass(v, parts, template ) );
 		}
 		catch (ex) {
 			error( ex.message );
