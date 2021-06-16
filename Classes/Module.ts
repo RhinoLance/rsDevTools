@@ -1,5 +1,5 @@
 //export namespace RhinoSpect {
-	
+
 	export class Module {
 		public moduleId?: string;
 		public name?: string;
@@ -13,7 +13,7 @@
 		public archiveAge?: number;
 
 		constructor( record?: IModuleDto ){
-			
+
 			if( record ){
 				this.fromDto(record);
 			}
@@ -24,7 +24,7 @@
 			Object.assign( this, record );
 			this.modified = new Date(record.modified);
 			this.created = new Date(record.created);
-			
+
 			try{
 				this.definition = JSON.parse(record.definition ?? []);
 			}
@@ -66,7 +66,7 @@
 	}
 
 	export interface IMapFeatures {
-		
+
 	}
 
 	export interface IClassDefinition {
@@ -84,7 +84,7 @@
 			required: boolean,
 			valueList: any[],
 			valueListText: string[]
-		},
+		}[],
 		source: {
 			mode: string,
 			html: string,
@@ -117,6 +117,6 @@
 		ModuleEdit = 4,
 		Security = 8
 	}
-	
+
 
 //}
