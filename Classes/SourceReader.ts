@@ -22,7 +22,7 @@ export class SourceReader {
 		return output;
 	}
 
-	private getFileContents(filePath: string): string {
+	public getFileContents(filePath: string): string {
 
 		try{
 			return fs.readFileSync(filePath, 'utf8');
