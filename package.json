@@ -26,7 +26,6 @@
     "@types/jasmine": "^3.7.7",
     "@types/node": "^10.17.5",
     "@types/node-fetch": "^2.5.7",
-    "@types/node-sass": "^4.11.0",
     "jasmine": "^3.7.0",
     "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.3.3",
@@ -37,7 +36,6 @@
     "chalk": "^2.4.1",
     "commander": "^2.20.3",
     "node-fetch": "^2.6.1",
-    "node-sass": "^4.13.1",
     "rxjs": "^6.6.3",
     "simple-git": "^1.126.0"
   }
