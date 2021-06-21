@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = require("commander");
@@ -6,7 +6,7 @@ const chalk_1 = require("chalk");
 const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
-const sass = require("node-sass");
+const sass = require("sass");
 let targetFile = "123";
 let formVersion = "";
 const emojis = {

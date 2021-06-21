@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = require("commander");
@@ -42,12 +42,18 @@ function main(configPath, configName) {
     const config = getConfig(configPath, configName);
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
     const promiseList = [];
-    config.componentMap.map(v => {
+    config.classMap.map(v => {
         success(`Retrieving source for ${v.componentName}`);
         const reader = new SourceReader_1.SourceReader(v.sourceFolder);
-        const parts = reader.getSourceParts(v.componentName);
-        success(`Updating module class ${v.classId}`);
-        promiseList.push(processor.updateClass(v.classId, parts));
+        try {
+            const parts = reader.getSourceParts(v.componentName);
+            const template = JSON.parse(reader.getFileContents(v.templateFilePath));
+            success(`Updating module class ${v.classId}`);
+            promiseList.push(processor.updateClass(v, parts, template));
+        }
+        catch (ex) {
+            error(ex.message);
+        }
     });
     Promise.all(promiseList)
         .then(result => {

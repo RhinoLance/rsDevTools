@@ -19,17 +19,29 @@ class ModuleProcessor {
             throw (`RhinoSpect module could not be retrieved for ${this.config.moduleId}.\nError: ${err}`);
         }));
     }
-    updateClass(classId, sourceParts) {
+    updateClass(classMap, sourceParts, template) {
         return this.getModule()
             .then(module => {
-            var _a;
-            const cls = (_a = module.definition) === null || _a === void 0 ? void 0 : _a.find(v => v.id == classId);
-            if (!cls) {
-                throw ("Class not found with ID: " + classId);
+            var _a, _b;
+            let modClass = (_a = module.definition) === null || _a === void 0 ? void 0 : _a.find(v => v.id == classMap.classId);
+            if (template) {
+                if (modClass == undefined) {
+                    (_b = module.definition) === null || _b === void 0 ? void 0 : _b.push(template);
+                    modClass = template;
+                }
+                else {
+                    Object.assign(modClass, template);
+                }
             }
-            cls.source.css = sourceParts.css;
-            cls.source.html = sourceParts.html;
-            cls.source.javascript = sourceParts.javascript;
+            else {
+                if (modClass == undefined) {
+                    throw (`A class definition could not be found as either a template or the server's module for "${classMap.className}"`);
+                }
+            }
+            Object.assign(modClass, template);
+            modClass.source.css = sourceParts.css;
+            modClass.source.html = sourceParts.html;
+            modClass.source.javascript = sourceParts.javascript;
             return;
         });
     }

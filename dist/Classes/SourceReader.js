@@ -10,14 +10,21 @@ class SourceReader {
     }
     getSourceParts(componentName) {
         const output = {};
-        const srcPath = path.join(this.srcRoot, `${componentName}-formReady`);
+        const srcPath = path.resolve(this.srcRoot, `${componentName}-formReady`);
         output.css = this.getFileContents(`${srcPath}.css`);
         output.html = this.getFileContents(`${srcPath}.html`);
         output.javascript = this.getFileContents(`${srcPath}.js`);
         return output;
     }
-    getFileContents(path) {
-        return fs.readFileSync(path, 'utf8');
+    getFileContents(filePath) {
+        try {
+            return fs.readFileSync(filePath, 'utf8');
+        }
+        catch (ex) {
+            const fullPath = path.resolve(filePath);
+            const message = `Could not read file at "${fullPath}"`;
+            throw Error(message);
+        }
     }
 }
 exports.SourceReader = SourceReader;
