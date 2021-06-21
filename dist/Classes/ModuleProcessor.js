@@ -38,7 +38,8 @@ class ModuleProcessor {
                     throw (`A class definition could not be found as either a template or the server's module for "${classMap.className}"`);
                 }
             }
-            Object.assign(modClass, template);
+            modClass.id = classMap.classId;
+            modClass.name = classMap.className;
             modClass.source.css = sourceParts.css;
             modClass.source.html = sourceParts.html;
             modClass.source.javascript = sourceParts.javascript;
