@@ -50,9 +50,8 @@ export class ModuleProcessor {
 					}
 				}
 
-				Object.assign(modClass, template);
-
-
+				modClass.id = classMap.classId;
+				modClass.name = classMap.className;
 
 				modClass.source.css = sourceParts.css;
 				modClass.source.html = sourceParts.html;
