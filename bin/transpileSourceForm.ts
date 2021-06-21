@@ -1,11 +1,11 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 import { Command } from "commander";
 import chalk from "chalk";
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from "typescript";
-import * as sass from "node-sass";
+import * as sass from "sass";
 
 
 let targetFile: string = "123";
@@ -45,12 +45,12 @@ function main(source: string, version: string = "" ) {
 			processHtml(source + ".html", formVersion);
 
 	}
-	
+
 
 }
 
 function processHtml(source: string, version: string) {
-	
+
 	const outputPath = path.join(path.dirname(source), path.basename(source, ".html")) + "-formReady.html";
 
 	fs.readFile( source, 'utf8', (err, data)=> {
@@ -67,12 +67,12 @@ function processHtml(source: string, version: string) {
 				return;
 			}
 			success(path.basename(source) + " was succesfully transpiled.");
-		}); 
+		});
 	});
 }
 
 function processScss(source: string, version: string) {
-	
+
 	const outputPath = path.join(path.dirname(source), path.basename(source, ".scss")) + "-formReady.css";
 
 	sass.render( {
@@ -97,7 +97,7 @@ function processScss(source: string, version: string) {
 }
 
 function processTs(source: string, version: string) {
-	
+
 	fs.readFile( source, 'utf8', (err, data)=> {
 		if( err ) {
 			targetError(source);
@@ -107,14 +107,14 @@ function processTs(source: string, version: string) {
 		const start = data.indexOf("class");
 		const classString = data.substring(start);
 
-		let transpiled = ts.transpileModule(classString, 
-			{ compilerOptions: 
-				{ 
+		let transpiled = ts.transpileModule(classString,
+			{ compilerOptions:
+				{
 					module: ts.ModuleKind.ES2015,
 					target: ts.ScriptTarget.ES2016
 				}
 			}).outputText;
-			
+
 			transpiled = cleanExportClassStatements(transpiled);
 			transpiled = cleanEmptyExportStatements(transpiled);
 
@@ -127,7 +127,7 @@ function processTs(source: string, version: string) {
 				return;
 			}
 			success(path.basename(source) + " was succesfully transpiled.");
-		}); 
+		});
 	});
 }
 
@@ -140,7 +140,7 @@ function cleanEmptyExportStatements(jsSrc: string): string {
 }
 
 function getVersionComment(version: string, fileType: string){
-	
+
 	if( !version ){
 		return "";
 	}
@@ -159,7 +159,7 @@ function getVersionComment(version: string, fileType: string){
 
 	const output = template.replace("PLACEHOLDER", `Version: ${version}`);
 	return output + "\n\n";
-	
+
 }
 
 function targetError( source: string) {
