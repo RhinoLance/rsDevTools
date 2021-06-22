@@ -1,6 +1,6 @@
 {
   "name": "rs-dev-tools",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "build": "201903141306",
   "description": "Software publishing CLI",
   "main": "./dist/index.js",
