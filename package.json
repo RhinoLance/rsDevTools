@@ -1,6 +1,6 @@
 {
   "name": "rs-dev-tools",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "build": "201903141306",
   "description": "Software publishing CLI",
   "main": "./dist/index.js",
@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jasmine-ts --config=jasmine.json",
     "build": "tsc && git add -A && git commit -m Build",
-	"bumpPatch": "npm version patch",
+    "bumpPatch": "npm version patch",
     "watch": "tsc --watch",
     "postversion": "git push && git push --tags",
     "publish": "npm-run-all -s build bumpPatch",
