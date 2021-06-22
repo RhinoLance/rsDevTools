@@ -21,7 +21,7 @@ class TranspileProcessor {
         return css;
     }
     processTs(source, version) {
-        const start = source.indexOf("class");
+        const start = source.search(/^\s*export\s*class/) - 5;
         let truncated = source.substring(start);
         truncated = this.cleanImportStatements(truncated);
         let transpiled;
