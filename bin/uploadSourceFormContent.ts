@@ -61,7 +61,7 @@ function main(configPath?: string, configName?: string ) {
 
 		try{
 			const parts = reader.getSourceParts(v.componentName);
-			const template = JSON.parse(reader.getFileContents(v.templateFilePath));
+			const template = v.templateFilePath ? JSON.parse(reader.getFileContents(v.templateFilePath)) : undefined;
 
 			success(`Updating module class ${v.classId}`);
 
