@@ -39,27 +39,25 @@ catch( error ){
 
 function main(source: string, version: string = "" ) {
 
-	const tp = new TranspileProcessor();
-
 	switch( path.extname( source )) {
 		case ".ts":
-			processFile( source, formVersion, tp.processTs );
+			processFile( source, formVersion, "processTs" );
 			break;
 		case ".scss":
-			processFile(source, formVersion, tp.processScss);
+			processFile(source, formVersion, "processScss");
 			break
 		case ".html":
-			processFile(source, formVersion, tp.processHtml);
+			processFile(source, formVersion, "processHtml");
 			break
 		default:
-			processFile( source + ".ts", formVersion, tp.processTs );
-			processFile(source + ".scss", formVersion, tp.processScss);
-			processFile(source + ".html", formVersion, tp.processHtml);
+			processFile( source + ".ts", formVersion, "processTs" );
+			processFile(source + ".scss", formVersion, "processScss");
+			processFile(source + ".html", formVersion, "processHtml");
 	}
 
 }
 
-function processFile(source: string, version: string, fProcessor: (template: string, version: string)=>string) {
+function processFile(source: string, version: string, processorName: "processTs" | "processHtml" | "processScss") {
 
 	const extMap = new Map([
 		[".scss", ".css"],
@@ -73,7 +71,9 @@ function processFile(source: string, version: string, fProcessor: (template: str
 	const outputPath = path.join(path.dirname(source), path.basename(source, ext)) + `-formReady${ext}`;
 
 	const src = readFile(source);
-	const output = fProcessor(src, version);
+
+	const tp = new TranspileProcessor();
+	const output = tp[processorName](src, version);
 	writeFile(outputPath, output);
 
 }
