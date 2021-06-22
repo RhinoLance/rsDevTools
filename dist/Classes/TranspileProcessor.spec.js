@@ -64,6 +64,24 @@ describe("TranspileProcessor", () => {
             expect(transpiled).toContain("/* Version: 1.0.0-1 */");
             expect(transpiled).toContain("version = '1.0.0-1';");
         });
+        it("transformTs_withClassTextInImport_shouldTrimFromClassDef", () => {
+            const src = `
+			import { prepareEventListenerParameters } from '@angular/compiler/src/render3/view/template';
+			import { Component, OnInit } from '@angular/core';
+			import { IInspectionCategory } from 'src/app/classes/IInspectionCategory';
+			import { IRhinoSpectForm } from 'src/app/classes/IRhinoSpectForm';
+
+			@Component({
+				selector: 'app-impact',
+				templateUrl: './impact.component.html',
+				styleUrls: ['./impact.component.scss']
+			})
+			export class ImpactComponent implements IRhinoSpectForm {}
+			`;
+            const tp = new TranspileProcessor_1.TranspileProcessor();
+            const transpiled = tp.processTs(src);
+            expect(transpiled.replace(/[\n\s]/g, "")).toBe("classImpactComponent{}");
+        });
     });
 });
 //# sourceMappingURL=TranspileProcessor.spec.js.map
