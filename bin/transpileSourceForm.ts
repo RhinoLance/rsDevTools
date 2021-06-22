@@ -105,7 +105,9 @@ function processTs(source: string, version: string) {
 		}
 
 		const start = data.indexOf("class");
-		const classString = data.substring(start);
+		let classString = data.substring(start);
+
+		classString = cleanImportStatements(classString);
 
 		let transpiled = ts.transpileModule(classString,
 			{ compilerOptions:
@@ -131,6 +133,10 @@ function processTs(source: string, version: string) {
 	});
 }
 
+function cleanImportStatements(tsSrc: string): string {
+	return tsSrc.replace(/^import.*$;/g, "")
+}
+
 function cleanExportClassStatements(jsSrc: string): string {
 	return jsSrc.replace(/export class/g, "class")
 }
@@ -138,6 +144,8 @@ function cleanExportClassStatements(jsSrc: string): string {
 function cleanEmptyExportStatements(jsSrc: string): string {
 	return jsSrc.replace(/export {};/g, "")
 }
+
+
 
 function getVersionComment(version: string, fileType: string){
 
