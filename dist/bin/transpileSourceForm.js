@@ -55,7 +55,8 @@ function processFile(source, version, processorName) {
         [".ts", ".js"]
     ]);
     const ext = extMap.get(path.extname(source).toLowerCase());
-    const outputPath = path.join(path.dirname(source), path.basename(source, ext)) + `-formReady${ext}`;
+    const fileParts = path.parse(source);
+    const outputPath = path.join(fileParts.dir, fileParts.name) + `-formReady${ext}`;
     const src = readFile(source);
     const tp = new TranspileProcessor_1.TranspileProcessor();
     const output = tp[processorName](src, version);
