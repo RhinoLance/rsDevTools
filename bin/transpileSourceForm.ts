@@ -76,6 +76,8 @@ function processFile(source: string, version: string, processorName: "processTs"
 	const output = tp[processorName](src, version);
 	writeFile(outputPath, output);
 
+	displaySuccess( `Transpile succesfull for ${outputPath}` );
+
 }
 
 function displaySuccess(message: string) {

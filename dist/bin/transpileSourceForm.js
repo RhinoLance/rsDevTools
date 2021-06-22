@@ -60,6 +60,7 @@ function processFile(source, version, processorName) {
     const tp = new TranspileProcessor_1.TranspileProcessor();
     const output = tp[processorName](src, version);
     writeFile(outputPath, output);
+    displaySuccess(`Transpile succesfull for ${outputPath}`);
 }
 function displaySuccess(message) {
     console.log(emojis.happy + " " + chalk_1.default.greenBright(message));
