@@ -70,7 +70,7 @@ describe("ModuleProcessor", () => {
 		spyOn<any>(mp, "getModule").and.returnValue(Promise.resolve(testModule));
 
 		mp.updateClass(_config.classMap[0], {html: "",javascript: "",css: ""}).then( result => {
-			expect(testModule.definition[0].name).toBe("moduleClass");
+			expect(testModule.definition[0].name).toBe("test");
 			done();
 		});
 
@@ -85,7 +85,7 @@ describe("ModuleProcessor", () => {
 		spyOn<any>(mp, "getModule").and.returnValue(Promise.resolve(testModule));
 
 		mp.updateClass(_config.classMap[0], {html: "",javascript: "",css: ""}, testTemplate).then( result => {
-			expect(testModule.definition[0].name).toBe("templateClass");
+			expect(testModule.definition[0].name).toBe("test");
 			done();
 		});
 
