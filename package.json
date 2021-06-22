@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jasmine-ts --config=jasmine.json",
     "build": "tsc && git add -A && git commit -m Build",
-	"bumpPatch": "npx version patch",
+	"bumpPatch": "npm version patch",
     "watch": "tsc --watch",
     "postversion": "git push && git push --tags",
     "publish": "npm-run-all -s build bumpPatch",
