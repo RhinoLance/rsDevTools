@@ -24,7 +24,8 @@ node transpileSourceForm <targetFile> [version]
 **version** will be appended to the top of each output file as a comment.
 
 e.g. The following command will transpile all component files, and append "1.0.0" at the top of each file.
-```
+
+```bash
 node transpileSourceForm ./src/app/components/gogo/gogo.component 1.0.0
 
 OUTPUT
@@ -86,7 +87,7 @@ e.g.
     }
 ```
 
-### Usage:
+### UploadSourceFormContent Usage
 
 ```bash
 node transpileSourceForm <targetFile> [version]
@@ -97,7 +98,7 @@ node transpileSourceForm <targetFile> [version]
 
 e.g. The following command will transpile all component files, and append "1.0.0" at the top of each file.
 
-```
+```bash
 node uploadSourceFormContent -c TreeHouse01
 
 OUTPUT
