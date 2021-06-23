@@ -56,7 +56,7 @@ function main(configPath?: string, configName?: string, dataFile?: string ) {
 
 	let dataFilePath = dataFile ? dataFile : config.mapFeatureFilePath;
 	if( !dataFilePath ) {
-		throw Error( "No map features file was provided.  Please specify it usint the --data argument, or specify it in the config file.")
+		throw Error( "No map features file was provided.  Please specify it in the --data argument, or config file.")
 	}
 
 	const data = <IMapFeature[]>JSON.parse(readFile( dataFilePath ));
