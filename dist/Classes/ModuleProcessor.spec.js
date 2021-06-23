@@ -100,15 +100,26 @@ describe("ModuleProcessor", () => {
         let empty;
         expect(() => { mp.updateMapFeatures(empty); }).toThrow(new Error("No map features were provided"));
     });
-    it("updateMapFeatures_MapFeatures_provideResultString", (done) => {
+    it("updateMapFeatures_MapFeatures_provideResultStringInBytes", (done) => {
         const testModule = JSON.parse(JSON.stringify(_testModule));
         let data = [{ name: "One" }, { name: "two" }, { name: "three" }];
         const mp = new ModuleProcessor_1.ModuleProcessor(_config);
         spyOn(mp, "getModule").and.returnValue(Promise.resolve(testModule));
         mp.updateMapFeatures(data).then(result => {
-            const length = JSON.stringify(data).length / 1000;
-            const names = data.map(v => v.name).join(", ");
-            expect(result).toBe(`Added ${length} map features (${length} kB): ${names}`);
+            expect(result).toBe("Added 3 map features (48 B): One, two, three");
+            done();
+        });
+    });
+    it("updateMapFeatures_MapFeatures_provideResultStringInKiloBytes", (done) => {
+        const testModule = JSON.parse(JSON.stringify(_testModule));
+        let data = [];
+        for (let cI = 0; cI < 1000; cI++) {
+            data.push({ name: `item-${cI}` });
+        }
+        const mp = new ModuleProcessor_1.ModuleProcessor(_config);
+        spyOn(mp, "getModule").and.returnValue(Promise.resolve(testModule));
+        mp.updateMapFeatures(data).then(result => {
+            expect(result.substr(0, 33)).toBe("Added 1000 map features (19.9 kB)");
             done();
         });
     });

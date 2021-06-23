@@ -53,9 +53,10 @@ class ModuleProcessor {
         return this.getModule()
             .then(module => {
             module.mapFeatures = mapFeatures;
-            const length = JSON.stringify(mapFeatures).length / 1000;
+            const length = JSON.stringify(mapFeatures).length;
+            const lengthStr = length > 1000 ? `${(length / 1000).toFixed(1)} kB` : `${length} B`;
             const names = mapFeatures.map(v => v.name).join(", ");
-            return `Added ${length} map features (${length} kB): ${names}`;
+            return `Added ${mapFeatures.length} map features (${lengthStr}): ${names}`;
         });
     }
     pushModuleToServer() {
