@@ -64,6 +64,7 @@ function main(configPath?: string, configName?: string, dataFile?: string ) {
 	processor.updateMapFeatures(data)
 	.then(result => {
 
+		success(result);
 		success(`Pushing module to server: ${config.name}`);
 		return processor.pushModuleToServer();
 	})
