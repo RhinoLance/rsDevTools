@@ -8,7 +8,7 @@
 		public modified?: Date;
 		public deleted?: boolean;
 		public definition?: IClassDefinition[];
-		public mapFeatures?: IMapFeatures[];
+		public mapFeatures?: IMapFeature[];
 		public colour?: string;
 		public archiveAge?: number;
 
@@ -65,8 +65,8 @@
 		archiveAge: number;
 	}
 
-	export interface IMapFeatures {
-
+	export interface IMapFeature {
+		name: string
 	}
 
 	export interface IClassDefinition {

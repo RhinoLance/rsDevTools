@@ -8,7 +8,8 @@ export interface IRhinoSpectConfig {
 	url: string,	// the RhinoSpect server installation.  When using the public Rhinospect server, this will be "https://go.rhinospect.com/"
 	token: string,	// a security token used to access the server in the form of a Guid
 	moduleId: string,	// the RhinoSpect module ID to target in the form of a Guid
-	classMap: IRhinoSpectClassMap[]  // an array of classes, and the settings to set.
+	mapFeatureFilePath?: string, 	// a filepath to a JSON file containing map features to be uploaded.
+	classMap: IRhinoSpectClassMap[]	// an array of classes, and the settings to set.
 }
 
 export interface IRhinoSpectClassMap {

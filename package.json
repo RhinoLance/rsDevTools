@@ -6,6 +6,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
+    "uploadMapFeatures": "./dist/bin/uploadMapFeatures.js",
     "transpileSourceForm": "./dist/bin/transpileSourceForm.js",
     "uploadSourceFormContent": "./dist/bin/uploadSourceFormContent.js"
   },

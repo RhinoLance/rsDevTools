@@ -1,7 +1,7 @@
 import { IRhinoSpectClassMap, IRhinoSpectConfig } from "./IRhinoSpectConfigList";
 import { ISourceFormParts } from "./ISourceFormParts";
 import { ApiService } from "./RhinoSpect.Api"
-import { IClassDefinition, IModuleDto, Module } from "./Module";
+import { IClassDefinition, IMapFeature, IModuleDto, Module } from "./Module";
 
 export class ModuleProcessor {
 
@@ -58,6 +58,25 @@ export class ModuleProcessor {
 				modClass.source.javascript = sourceParts.javascript;
 
 				return;
+			}
+		)
+	}
+
+	public updateMapFeatures( mapFeatures: IMapFeature[] ): Promise<string>{
+
+		if( !mapFeatures ){
+			throw Error("No map features were provided");
+		}
+
+		return this.getModule()
+			.then( module => {
+
+				module.mapFeatures = mapFeatures;
+
+				const length = JSON.stringify(mapFeatures).length/1000;
+				const names = mapFeatures.map(v=> v.name).join(", ");
+
+				return `Added ${length} map features (${length} kB): ${names}`;
 			}
 		)
 	}
