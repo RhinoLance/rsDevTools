@@ -43,11 +43,12 @@ function main(configPath, configName, dataFile) {
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
     let dataFilePath = dataFile ? dataFile : config.mapFeatureFilePath;
     if (!dataFilePath) {
-        throw Error("No map features file was provided.  Please specify it usint the --data argument, or specify it in the config file.");
+        throw Error("No map features file was provided.  Please specify it in the --data argument, or config file.");
     }
     const data = JSON.parse(readFile(dataFilePath));
     processor.updateMapFeatures(data)
         .then(result => {
+        success(result);
         success(`Pushing module to server: ${config.name}`);
         return processor.pushModuleToServer();
     })
