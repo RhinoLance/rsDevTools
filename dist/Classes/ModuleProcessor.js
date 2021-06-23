@@ -46,6 +46,18 @@ class ModuleProcessor {
             return;
         });
     }
+    updateMapFeatures(mapFeatures) {
+        if (!mapFeatures) {
+            throw Error("No map features were provided");
+        }
+        return this.getModule()
+            .then(module => {
+            module.mapFeatures = mapFeatures;
+            const length = JSON.stringify(mapFeatures).length / 1000;
+            const names = mapFeatures.map(v => v.name).join(", ");
+            return `Added ${length} map features (${length} kB): ${names}`;
+        });
+    }
     pushModuleToServer() {
         if (!this.module) {
             throw ("No module has been retrieved to push");

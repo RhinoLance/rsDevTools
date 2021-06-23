@@ -91,5 +91,26 @@ describe("ModuleProcessor", () => {
             done();
         });
     });
+    it("updateMapFeatures_shouldExist", () => {
+        const mp = new ModuleProcessor_1.ModuleProcessor(_config);
+        expect(mp.updateMapFeatures).toBeDefined();
+    });
+    it("updateMapFeatures_noMapFeatures_throwError", () => {
+        const mp = new ModuleProcessor_1.ModuleProcessor(_config);
+        let empty;
+        expect(() => { mp.updateMapFeatures(empty); }).toThrow(new Error("No map features were provided"));
+    });
+    it("updateMapFeatures_MapFeatures_provideResultString", (done) => {
+        const testModule = JSON.parse(JSON.stringify(_testModule));
+        let data = [{ name: "One" }, { name: "two" }, { name: "three" }];
+        const mp = new ModuleProcessor_1.ModuleProcessor(_config);
+        spyOn(mp, "getModule").and.returnValue(Promise.resolve(testModule));
+        mp.updateMapFeatures(data).then(result => {
+            const length = JSON.stringify(data).length / 1000;
+            const names = data.map(v => v.name).join(", ");
+            expect(result).toBe(`Added ${length} map features (${length} kB): ${names}`);
+            done();
+        });
+    });
 });
 //# sourceMappingURL=ModuleProcessor.spec.js.map
