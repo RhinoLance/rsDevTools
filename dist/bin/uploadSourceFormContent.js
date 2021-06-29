@@ -7,22 +7,22 @@ const fs = require("fs");
 const path = require("path");
 const ModuleProcessor_1 = require("../Classes/ModuleProcessor");
 const SourceReader_1 = require("../Classes/SourceReader");
-let configFile = "123";
+let _configFile = "123";
 const emojis = {
     happy: "🙂",
     skull: "☠️",
     fire: "🔥"
 };
-var program = new commander_1.Command("transpileSourceForm <configFile>")
+var program = new commander_1.Command("uploadSourceFormContent <configFile>")
     .version("1.0.0")
     .arguments('<configFile>')
     .action((configFile) => {
-    configFile = configFile;
+    _configFile = configFile;
 })
     .option("-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
     .parse(process.argv);
 try {
-    main(configFile, program.config);
+    main(_configFile, program.config);
 }
 catch (error) {
     fatal(error + "\n");

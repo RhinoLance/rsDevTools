@@ -12,7 +12,7 @@ import { IPermissions, PermissionProcessor } from "../Classes/PermissionProcesso
 import { isImportClause } from "typescript";
 
 
-let configFile: string = "123";
+let _configFile: string |undefined;
 
 const emojis = {
 	happy: "🙂",
@@ -24,7 +24,7 @@ var program:any = new Command("setPermissions <configFile>")
 		.version( "1.0.0" )
 		.argument('<configFile>', "path to the RhinoSpect config file.")
 		.action( (configFile) => {
-			configFile = configFile;
+			_configFile = configFile;
 		})
 		.option( "-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
 		.requiredOption( "-u --user <string>", "Specify the UserId to update.")
@@ -43,7 +43,7 @@ var program:any = new Command("setPermissions <configFile>")
 		.option( "--no-restrictToAssignedTo", "Remove restrictToAssignedTo permission.")
 		.parse(process.argv);
 
-main( configFile, program )
+main( program, _configFile )
 	.catch(error => {
 		fatal( error + "\n" );
 		process.exit(1);
@@ -59,10 +59,11 @@ function error(message: string){
 
 function fatal(message: string){
 	console.error( emojis.skull + " " + chalk.redBright( message ));
+	process.stderr.write( emojis.skull + " " + chalk.redBright( message ));
 	process.exit(1);
 }
 
-async function main(configPath: string, program: any ) {
+async function main(program: any, configPath?: string  ) {
 
 
 	const options = program.opts();
@@ -106,7 +107,7 @@ async function main(configPath: string, program: any ) {
 function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfig {
 	let jsonPath;
 	if( configPath ){
-		jsonPath = path.join('.//', 'rhinospect.conf.json');
+		jsonPath = configPath;
 	}
 	else{
 		jsonPath = path.join(__dirname, '..', 'rhinospect.conf.json');
@@ -123,7 +124,7 @@ function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfi
 	}
 
 	if( !config ){
-		throw("The specified config could not be found, or there is no default configuration.");
+		throw(`The specified config could not be found, or there is no default configuration.\nAttempted to load config from "${jsonPath}"`);
 	}
 
 	return config;

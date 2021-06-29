@@ -41,7 +41,7 @@ describe("PermissionProcessor", () => {
             security: true
         };
         const result = mp.calculatePermissions(permissionsNumber, changes);
-        expect(result).toBe(RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Write);
+        expect(result).toBe(RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Security);
     });
     it("calculatePermissions_withReadRemove_shouldRemoveReadPermissions", () => {
         const mp = new PermissionProcessor_1.PermissionProcessor();

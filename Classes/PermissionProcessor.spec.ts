@@ -59,7 +59,7 @@ describe("PermissionProcessor", () => {
 
 		const result = mp.calculatePermissions(permissionsNumber, changes);
 
-		expect(result).toBe(RhinoSpectUserPermissions.Permissions.Write);
+		expect(result).toBe(RhinoSpectUserPermissions.Permissions.Security);
 
 
 	});

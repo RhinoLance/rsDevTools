@@ -6,23 +6,23 @@ const chalk_1 = require("chalk");
 const fs = require("fs");
 const path = require("path");
 const ModuleProcessor_1 = require("../Classes/ModuleProcessor");
-let configFile = "123";
+let _configFile = "123";
 const emojis = {
     happy: "🙂",
     skull: "☠️",
     fire: "🔥"
 };
-var program = new commander_1.Command("transpileSourceForm <configFile> <sourceFile>")
+var program = new commander_1.Command("uploadMapFeatures <configFile> <sourceFile>")
     .version("1.0.0")
     .arguments('<configFile>')
     .action((configFile) => {
-    configFile = configFile;
+    _configFile = configFile;
 })
     .option("-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
     .option("-d --data <string>", "Specify the data file to upload.  If not specified it will use data file path specified in the configuration.")
     .parse(process.argv);
 try {
-    main(configFile, program.config, program.data);
+    main(_configFile, program.config, program.data);
 }
 catch (error) {
     fatal(error + "\n");

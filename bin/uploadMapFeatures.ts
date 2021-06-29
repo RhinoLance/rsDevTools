@@ -9,7 +9,7 @@ import { ModuleProcessor } from "../Classes/ModuleProcessor";
 import { IMapFeature } from "../Classes/Module";
 
 
-let configFile: string = "123";
+let _configFile: string = "123";
 
 const emojis = {
 	happy: "🙂",
@@ -17,18 +17,18 @@ const emojis = {
 	fire: "🔥"
 }
 
-var program:any = new Command("transpileSourceForm <configFile> <sourceFile>")
+var program:any = new Command("uploadMapFeatures <configFile> <sourceFile>")
 		.version( "1.0.0" )
 		.arguments('<configFile>')
 		.action( (configFile) => {
-			configFile = configFile;
+			_configFile = configFile;
 		})
 		.option( "-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
 		.option( "-d --data <string>", "Specify the data file to upload.  If not specified it will use data file path specified in the configuration.")
 		.parse(process.argv);
 
 try{
-	main( configFile, program.config, program.data );
+	main( _configFile, program.config, program.data );
 }
 catch( error ){
 	fatal( error + "\n" );

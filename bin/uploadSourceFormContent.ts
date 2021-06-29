@@ -9,7 +9,7 @@ import { ModuleProcessor } from "../Classes/ModuleProcessor";
 import { SourceReader } from "../Classes/SourceReader";
 
 
-let configFile: string = "123";
+let _configFile: string = "123";
 
 const emojis = {
 	happy: "🙂",
@@ -17,17 +17,17 @@ const emojis = {
 	fire: "🔥"
 }
 
-var program:any = new Command("transpileSourceForm <configFile>")
+var program:any = new Command("uploadSourceFormContent <configFile>")
 		.version( "1.0.0" )
 		.arguments('<configFile>')
 		.action( (configFile) => {
-			configFile = configFile;
+			_configFile = configFile;
 		})
 		.option( "-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
 		.parse(process.argv);
 
 try{
-	main( configFile, program.config );
+	main( _configFile, program.config );
 }
 catch( error ){
 	fatal( error + "\n" );
