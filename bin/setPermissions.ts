@@ -27,7 +27,7 @@ var program:any = new Command("setPermissions <configFile>")
 			configFile = configFile;
 		})
 		.option( "-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
-		.option( "-u --user <string>", "Specify the UserId to update.")
+		.requiredOption( "-u --user <string>", "Specify the UserId to update.")
 		.option( "-n --note <string>", "Specify a note to be saved with the user permission.")
 		.option( "--read", "Add read permission.")
 		.option( "--no-read", "Remove read permission.")
