@@ -19,6 +19,18 @@ class ApiService {
         return this.putToRsApi(`modules/${moduleDto.moduleId}`, moduleDto);
     }
     ;
+    getUser(userId) {
+        return this.getFromRsApi(`users/${userId}`, "");
+    }
+    ;
+    getModuleUser(moduleId, userId) {
+        return this.getFromRsApi(`modules/${moduleId}/users/${userId}`, "");
+    }
+    ;
+    setModuleUser(data) {
+        return this.putToRsApi(`modules/${data.moduleId}/users/${data.userId}`, data);
+    }
+    ;
     buildUrl(urlSuffix, querystring, allowCache = false) {
         if (this.apiUrl === "")
             throw ("ApiService: No API URL set");
