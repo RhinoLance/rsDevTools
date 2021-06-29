@@ -43,14 +43,11 @@ var program:any = new Command("setPermissions <configFile>")
 		.option( "--no-restrictToAssignedTo", "Remove restrictToAssignedTo permission.")
 		.parse(process.argv);
 
-try{
-
-	main( configFile, program );
-}
-catch( error ){
-	fatal( error + "\n" );
-	process.exit(1);
-}
+main( configFile, program )
+	.catch(error => {
+		fatal( error + "\n" );
+		process.exit(1);
+	});
 
 function success(message: string) {
 	console.log(emojis.happy + " " + chalk.greenBright( message ));

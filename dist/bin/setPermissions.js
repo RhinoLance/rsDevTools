@@ -35,13 +35,11 @@ var program = new commander_1.Command("setPermissions <configFile>")
     .option("--restrictToAssignedTo", "Add restrictToAssignedTo permission.")
     .option("--no-restrictToAssignedTo", "Remove restrictToAssignedTo permission.")
     .parse(process.argv);
-try {
-    main(configFile, program);
-}
-catch (error) {
+main(configFile, program)
+    .catch(error => {
     fatal(error + "\n");
     process.exit(1);
-}
+});
 function success(message) {
     console.log(emojis.happy + " " + chalk_1.default.greenBright(message));
 }
