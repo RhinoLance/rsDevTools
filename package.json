@@ -7,6 +7,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
+    "setPermissions": "./dist/bin/setPermissions.js",
     "uploadMapFeatures": "./dist/bin/uploadMapFeatures.js",
     "transpileSourceForm": "./dist/bin/transpileSourceForm.js",
     "uploadSourceFormContent": "./dist/bin/uploadSourceFormContent.js"
