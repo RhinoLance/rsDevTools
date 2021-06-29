@@ -3,6 +3,7 @@
   "version": "2.0.14",
   "build": "201903141306",
   "description": "Software publishing CLI",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
