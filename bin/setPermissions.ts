@@ -22,7 +22,7 @@ const emojis = {
 
 var program:any = new Command("setPermissions <configFile>")
 		.version( "1.0.0" )
-		.arguments('<configFile>')
+		.argument('<configFile>', "path to the RhinoSpect config file.")
 		.action( (configFile) => {
 			configFile = configFile;
 		})
@@ -65,9 +65,10 @@ function fatal(message: string){
 async function main(configPath: string, program: any ) {
 
 
-	const config = getConfig(configPath, program["config"]);
-	const permissions: IPermissions = program;
-	const userIdArg: string = program["user"];
+	const options = program.opts();
+	const config = getConfig(configPath, options.config);
+	const permissions: IPermissions = options;
+	const userIdArg: string = options.user;
 
 
 	const apiSvc = new ApiService(config.url, config.token);
@@ -85,8 +86,13 @@ async function main(configPath: string, program: any ) {
 	}
 
 	moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
+	console.log(`Options: ${JSON.stringify(options)}`);
+	if( options.note ){
+		moduleUser.description = options.note;
+	}
 
 	try{
+		console.log(`ModuleUser: ${JSON.stringify(moduleUser)}`);
 		await apiSvc.setModuleUser(moduleUser);
 	}
 	catch(ex) {

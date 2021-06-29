@@ -17,7 +17,7 @@ export class PermissionProcessor {
 		if( changes.read !== undefined ) this.setPermission( permissions, changes.read, RhinoSpectUserPermissions.Permissions.Read);
 		if( changes.write !== undefined ) this.setPermission( permissions, changes.write, RhinoSpectUserPermissions.Permissions.Write);
 		if( changes.moduleEdit !== undefined ) this.setPermission( permissions, changes.moduleEdit, RhinoSpectUserPermissions.Permissions.ModuleEdit);
-		if( changes.sercurity !== undefined ) this.setPermission( permissions, changes.sercurity, RhinoSpectUserPermissions.Permissions.Security);
+		if( changes.security !== undefined ) this.setPermission( permissions, changes.security, RhinoSpectUserPermissions.Permissions.Security);
 		if( changes.assignTo !== undefined ) this.setPermission( permissions, changes.assignTo, RhinoSpectUserPermissions.Permissions.AssignTo);
 		if( changes.restrictToAssignedTo !== undefined ) this.setPermission( permissions, changes.restrictToAssignedTo, RhinoSpectUserPermissions.Permissions.RestrictedToAssignedTo);
 
@@ -41,7 +41,7 @@ export interface IPermissions {
 	read?: boolean,
 	write?: boolean,
 	moduleEdit?: boolean,
-	sercurity?: boolean,
+	security?: boolean,
 	assignTo?: boolean,
 	restrictToAssignedTo?: boolean
 }

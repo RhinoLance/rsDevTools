@@ -15,7 +15,7 @@ const emojis = {
 };
 var program = new commander_1.Command("setPermissions <configFile>")
     .version("1.0.0")
-    .arguments('<configFile>')
+    .argument('<configFile>', "path to the RhinoSpect config file.")
     .action((configFile) => {
     configFile = configFile;
 })
@@ -51,9 +51,10 @@ function fatal(message) {
     process.exit(1);
 }
 async function main(configPath, program) {
-    const config = getConfig(configPath, program["config"]);
-    const permissions = program;
-    const userIdArg = program["user"];
+    const options = program.opts();
+    const config = getConfig(configPath, options.config);
+    const permissions = options;
+    const userIdArg = options.user;
     const apiSvc = new RhinoSpect_Api_1.ApiService(config.url, config.token);
     const processor = new PermissionProcessor_1.PermissionProcessor();
     let userId;
@@ -66,7 +67,12 @@ async function main(configPath, program) {
         throw `There was a problem retrieving the user for '${userIdArg}'\n${ex}`;
     }
     moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
+    console.log(`Options: ${JSON.stringify(options)}`);
+    if (options.note) {
+        moduleUser.description = options.note;
+    }
     try {
+        console.log(`ModuleUser: ${JSON.stringify(moduleUser)}`);
         await apiSvc.setModuleUser(moduleUser);
     }
     catch (ex) {

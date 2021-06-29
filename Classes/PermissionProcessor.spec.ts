@@ -48,6 +48,22 @@ describe("PermissionProcessor", () => {
 
 	});
 
+	it( "calculatePermissions_withSecurityAdd_shouldAddSecurityPermissions", ()=> {
+
+
+		const mp = new PermissionProcessor();
+		const permissionsNumber = 0;
+		const changes = {
+			security: true
+		}
+
+		const result = mp.calculatePermissions(permissionsNumber, changes);
+
+		expect(result).toBe(RhinoSpectUserPermissions.Permissions.Write);
+
+
+	});
+
 	it( "calculatePermissions_withReadRemove_shouldRemoveReadPermissions", ()=> {
 
 

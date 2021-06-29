@@ -14,8 +14,8 @@ class PermissionProcessor {
             this.setPermission(permissions, changes.write, RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Write);
         if (changes.moduleEdit !== undefined)
             this.setPermission(permissions, changes.moduleEdit, RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.ModuleEdit);
-        if (changes.sercurity !== undefined)
-            this.setPermission(permissions, changes.sercurity, RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Security);
+        if (changes.security !== undefined)
+            this.setPermission(permissions, changes.security, RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Security);
         if (changes.assignTo !== undefined)
             this.setPermission(permissions, changes.assignTo, RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.AssignTo);
         if (changes.restrictToAssignedTo !== undefined)

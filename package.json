@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
-    "commander": "^2.20.3",
+    "commander": "^8.0.0",
     "node-fetch": "^2.6.1",
     "rxjs": "^6.6.3",
     "sass": "^1.35.1",

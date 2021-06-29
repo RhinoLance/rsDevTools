@@ -34,6 +34,15 @@ describe("PermissionProcessor", () => {
         const result = mp.calculatePermissions(permissionsNumber, changes);
         expect(result).toBe(RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Write);
     });
+    it("calculatePermissions_withSecurityAdd_shouldAddSecurityPermissions", () => {
+        const mp = new PermissionProcessor_1.PermissionProcessor();
+        const permissionsNumber = 0;
+        const changes = {
+            security: true
+        };
+        const result = mp.calculatePermissions(permissionsNumber, changes);
+        expect(result).toBe(RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Write);
+    });
     it("calculatePermissions_withReadRemove_shouldRemoveReadPermissions", () => {
         const mp = new PermissionProcessor_1.PermissionProcessor();
         const permissionsNumber = RhinoSpectUserPermissions_1.RhinoSpectUserPermissions.Permissions.Read;

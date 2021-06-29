@@ -3,7 +3,7 @@
 		{
 			"name": "default",
 			"url": "http://localhost:8817",
-			"token": "ec9b5570-357c-4e9a-beb5-6fed4b9634a0",
+			"token": "aa185ab3-1261-4581-9e85-f9838fa1f923",
 			"moduleId": "08e6c784-58af-455d-8f38-034b6ce9e730",
 			"classMap": [
 				{
@@ -18,7 +18,7 @@
 		{
 			"name": "test",
 			"url": "http://localhost:8817",
-			"token": "ec9b5570-357c-4e9a-beb5-6fed4b9634a0",
+			"token": "aa185ab3-1261-4581-9e85-f9838fa1f923",
 			"moduleId": "fdf641c6-625e-4949-a91a-5be382f449b3",
 			"classMap": []
 		}
