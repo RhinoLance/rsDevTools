@@ -60,7 +60,7 @@ function main(configPath, configName, dataFile) {
 function getConfig(configPath, configName) {
     let jsonPath;
     if (configPath) {
-        jsonPath = path.join('.//', 'rhinospect.conf.json');
+        jsonPath = configPath;
     }
     else {
         jsonPath = path.join(__dirname, '..', 'rhinospect.conf.json');
@@ -75,7 +75,7 @@ function getConfig(configPath, configName) {
         fatal(`There was an error reading the configuration file.  Please ensure that you either specify a file path, or have a rhinospect.conf.json in your project's root folder.  Error: ${ex.message}`);
     }
     if (!config) {
-        throw ("The specified config could not be found, or there is no default configuration.");
+        throw (`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName !== null && configName !== void 0 ? configName : "default")}" in "${path.resolve(jsonPath)}"`);
     }
     return config;
 }
