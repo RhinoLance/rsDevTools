@@ -27,7 +27,7 @@ var program:any = new Command("uploadSourceFormContent <configFile>")
 		.parse(process.argv);
 
 try{
-	main( _configFile, program.config );
+	main( program, _configFile );
 }
 catch( error ){
 	fatal( error + "\n" );
@@ -47,9 +47,10 @@ function fatal(message: string){
 	process.exit(1);
 }
 
-function main(configPath?: string, configName?: string ) {
+function main(program: any, configPath?: string ) {
 
-	const config = getConfig(configPath, configName);
+	const options = program.opts();
+	const config = getConfig(configPath, options.config);
 
 	const processor = new ModuleProcessor(config);
 

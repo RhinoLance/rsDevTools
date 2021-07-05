@@ -28,7 +28,7 @@ var program:any = new Command("uploadMapFeatures <configFile> <sourceFile>")
 		.parse(process.argv);
 
 try{
-	main( _configFile, program.config, program.data );
+	main( program, _configFile );
 }
 catch( error ){
 	fatal( error + "\n" );
@@ -48,13 +48,14 @@ function fatal(message: string){
 	process.exit(1);
 }
 
-function main(configPath?: string, configName?: string, dataFile?: string ) {
+function main(program: any, configPath?: string ) {
 
-	const config = getConfig(configPath, configName);
+	const options = program.opts();
+	const config = getConfig(configPath, options.config);
 
 	const processor = new ModuleProcessor(config);
 
-	let dataFilePath = dataFile ? dataFile : config.mapFeatureFilePath;
+	let dataFilePath = options.data ? options.data : config.mapFeatureFilePath;
 	if( !dataFilePath ) {
 		throw Error( "No map features file was provided.  Please specify it in the --data argument, or config file.")
 	}

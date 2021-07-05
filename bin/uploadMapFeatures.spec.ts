@@ -25,7 +25,7 @@ describe("uploadMapFeatures", () => {
 
 		try {
 			const child = execFileSync("node"
-				,["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "./path-to-dummy-mapData.json"]
+				,["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "-d ./path-to-dummy-mapData.json"]
 				,{shell: true}
 			);
 
