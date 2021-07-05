@@ -78,6 +78,7 @@ async function main(program, configPath) {
             email: email
         };
     }
+    ;
     moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
     console.log(`Options: ${JSON.stringify(options)}`);
     if (options.note) {
