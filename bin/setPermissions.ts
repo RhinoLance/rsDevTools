@@ -136,7 +136,7 @@ function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfi
 	}
 
 	if( !config ){
-		throw(`The specified config could not be found, or there is no default configuration.\nAttempted to load config from "${path.resolve(jsonPath)}"`);
+		throw(`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName ?? "default")}" in "${path.resolve(jsonPath)}"`);
 	}
 
 	return config;
