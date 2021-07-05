@@ -1,4 +1,5 @@
 import { PermissionProcessor } from "./PermissionProcessor";
+import { ApiService } from "./RhinoSpect.Api";
 import { RhinoSpectUserPermissions } from "./RhinoSpectUserPermissions";
 
 describe("PermissionProcessor", () => {
@@ -94,6 +95,5 @@ describe("PermissionProcessor", () => {
 
 
 	});
-
 
 });

@@ -59,13 +59,24 @@ async function main(program, configPath) {
     const apiSvc = new RhinoSpect_Api_1.ApiService(config.url, config.token);
     const processor = new PermissionProcessor_1.PermissionProcessor();
     let userId;
+    let email = userIdArg.indexOf("@") == -1 ? "" : userIdArg;
     let moduleUser;
     try {
-        userId = userIdArg.indexOf("@") == -1 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
+        userId = email.length === 0 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
         moduleUser = await apiSvc.getModuleUser(config.moduleId, userId);
     }
     catch (ex) {
         throw `There was a problem retrieving the user for '${userIdArg}'\n${ex}`;
+    }
+    if (moduleUser == undefined) {
+        //Module user not found, create a new record.
+        moduleUser = {
+            moduleId: config.moduleId,
+            userId: userId,
+            description: options.note,
+            permissions: 0,
+            email: email
+        };
     }
     moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
     console.log(`Options: ${JSON.stringify(options)}`);

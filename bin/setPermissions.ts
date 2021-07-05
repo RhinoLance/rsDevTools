@@ -77,13 +77,25 @@ async function main(program: any, configPath?: string  ) {
 	const processor = new PermissionProcessor();
 
 	let userId: string;
+	let email: string = userIdArg.indexOf("@") == -1 ? "" : userIdArg;
 	let moduleUser: ApiService.IModuleUser;
 	try{
-		userId = userIdArg.indexOf("@") == -1 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
+		userId = email.length === 0 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
 		moduleUser = await apiSvc.getModuleUser(config.moduleId, userId);
 	}
 	catch(ex) {
 		throw `There was a problem retrieving the user for '${userIdArg}'\n${ex}`;
+	}
+
+	if( moduleUser == undefined) {
+		//Module user not found, create a new record.
+		moduleUser = {
+			moduleId: config.moduleId,
+			userId: userId,
+			description: options.note,
+			permissions: 0,
+			email: email
+		}
 	}
 
 	moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
