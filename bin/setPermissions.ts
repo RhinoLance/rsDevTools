@@ -95,8 +95,8 @@ async function main(program: any, configPath?: string  ) {
 			description: options.note,
 			permissions: 0,
 			email: email
-		}
-	}
+		};
+	};
 
 	moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
 	console.log(`Options: ${JSON.stringify(options)}`);
