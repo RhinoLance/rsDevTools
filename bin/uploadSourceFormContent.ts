@@ -90,7 +90,7 @@ function main(configPath?: string, configName?: string ) {
 function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfig {
 	let jsonPath;
 	if( configPath ){
-		jsonPath = path.join('.//', 'rhinospect.conf.json');
+		jsonPath = configPath;
 	}
 	else{
 		jsonPath = path.join(__dirname, '..', 'rhinospect.conf.json');
@@ -107,7 +107,7 @@ function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfi
 	}
 
 	if( !config ){
-		throw("The specified config could not be found, or there is no default configuration.");
+		throw(`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName ?? "default")}" in "${path.resolve(jsonPath)}"`);
 	}
 
 	return config;
