@@ -13,7 +13,7 @@ describe("uploadMapFeatures", () => {
     });
     it("runScript_withoutDataFile_shouldError", () => {
         try {
-            const child = child_process_1.execFileSync("node", ["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "./path-to-dummy-mapData.json"], { shell: true });
+            const child = child_process_1.execFileSync("node", ["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "-d ./path-to-dummy-mapData.json"], { shell: true });
             expect(true).toBe(false);
         }
         catch (err) {

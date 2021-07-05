@@ -22,7 +22,7 @@ var program = new commander_1.Command("uploadSourceFormContent <configFile>")
     .option("-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
     .parse(process.argv);
 try {
-    main(_configFile, program.config);
+    main(program, _configFile);
 }
 catch (error) {
     fatal(error + "\n");
@@ -38,8 +38,9 @@ function fatal(message) {
     console.error(emojis.skull + " " + chalk_1.default.redBright(message));
     process.exit(1);
 }
-function main(configPath, configName) {
-    const config = getConfig(configPath, configName);
+function main(program, configPath) {
+    const options = program.opts();
+    const config = getConfig(configPath, options.config);
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
     const promiseList = [];
     config.classMap.map(v => {

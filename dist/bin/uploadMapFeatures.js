@@ -22,7 +22,7 @@ var program = new commander_1.Command("uploadMapFeatures <configFile> <sourceFil
     .option("-d --data <string>", "Specify the data file to upload.  If not specified it will use data file path specified in the configuration.")
     .parse(process.argv);
 try {
-    main(_configFile, program.config, program.data);
+    main(program, _configFile);
 }
 catch (error) {
     fatal(error + "\n");
@@ -38,10 +38,11 @@ function fatal(message) {
     console.error(emojis.skull + " " + chalk_1.default.redBright(message));
     process.exit(1);
 }
-function main(configPath, configName, dataFile) {
-    const config = getConfig(configPath, configName);
+function main(program, configPath) {
+    const options = program.opts();
+    const config = getConfig(configPath, options.config);
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
-    let dataFilePath = dataFile ? dataFile : config.mapFeatureFilePath;
+    let dataFilePath = options.data ? options.data : config.mapFeatureFilePath;
     if (!dataFilePath) {
         throw Error("No map features file was provided.  Please specify it in the --data argument, or config file.");
     }
