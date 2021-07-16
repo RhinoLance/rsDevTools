@@ -19,7 +19,7 @@ const emojis = {
 
 var program:any = new Command("uploadSourceFormContent <configFile>")
 		.version( "1.0.0" )
-		.arguments('<configFile>')
+		.arguments('[configFile]')
 		.action( (configFile) => {
 			_configFile = configFile;
 		})

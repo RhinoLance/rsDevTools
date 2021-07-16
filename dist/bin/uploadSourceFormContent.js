@@ -15,7 +15,7 @@ const emojis = {
 };
 var program = new commander_1.Command("uploadSourceFormContent <configFile>")
     .version("1.0.0")
-    .arguments('<configFile>')
+    .arguments('[configFile]')
     .action((configFile) => {
     _configFile = configFile;
 })
