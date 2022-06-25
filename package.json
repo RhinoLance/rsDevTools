@@ -42,7 +42,7 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "commander": "^8.0.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "rxjs": "^6.6.3",
     "sass": "^1.35.1",
     "simple-git": "^1.126.0"
