@@ -48,7 +48,7 @@ class ApiService {
     ;
     get(url) {
         console.log(`Retrieving ${url}`);
-        return node_fetch_1.default(url)
+        return (0, node_fetch_1.default)(url)
             .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -75,7 +75,7 @@ class ApiService {
     }
     putPost(operation, url, data, config, noToken) {
         console.log(`${operation}ting ${url}`);
-        return node_fetch_1.default(url, {
+        return (0, node_fetch_1.default)(url, {
             method: operation,
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,9 @@ class ApiService {
         })
             .then((response) => {
             if (!response.ok) {
-                throw new Error(`Put failed: ${response.status}: ${response.statusText}`);
+                return response.text().then((text) => {
+                    throw new Error(`Put failed: ${response.status}: ${response.statusText}: ${text}`);
+                });
             }
             return;
         });

@@ -11,7 +11,10 @@ let _configFile = "123";
 const emojis = {
     happy: "🙂",
     skull: "☠️",
-    fire: "🔥"
+    fire: "🔥",
+    curvy: "〰️",
+    whiteCircle: "⚪",
+    wait: ""
 };
 var program = new commander_1.Command("uploadSourceFormContent <configFile>")
     .version("1.0.0")
@@ -27,6 +30,9 @@ try {
 catch (error) {
     fatal(error + "\n");
     process.exit(1);
+}
+function action(message) {
+    console.log(emojis.wait + " " + chalk_1.default.white(message));
 }
 function success(message) {
     console.log(emojis.happy + " " + chalk_1.default.greenBright(message));
@@ -44,12 +50,13 @@ function main(program, configPath) {
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
     const promiseList = [];
     config.classMap.map(v => {
-        success(`Retrieving source for ${v.componentName}`);
+        action(`Reading local source files for ${v.componentName}`);
         const reader = new SourceReader_1.SourceReader(v.sourceFolder);
         try {
             const parts = reader.getSourceParts(v.componentName);
             const template = v.templateFilePath ? JSON.parse(reader.getFileContents(v.templateFilePath)) : undefined;
-            success(`Updating module class ${v.classId}`);
+            success(`Source ready`);
+            action(`Retrieving module from server, and updating ${v.className} class`);
             promiseList.push(processor.updateClass(v, parts, template));
         }
         catch (ex) {
@@ -58,11 +65,12 @@ function main(program, configPath) {
     });
     Promise.all(promiseList)
         .then(result => {
-        success(`Pushing module to server: ${config.name}`);
+        success(`Update successfull`);
+        action(`Pushing module to server: ${config.serverName}`);
         return processor.pushModuleToServer();
     })
         .then(result => {
-        success(`Module succesfully saved to server: ${config.name}`);
+        success(`Module succesfully saved to server`);
     })
         .catch(ex => error("Error: " + ex));
 }

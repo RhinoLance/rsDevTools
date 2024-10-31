@@ -4,7 +4,7 @@ const child_process_1 = require("child_process");
 describe("setPermissions", () => {
     it("runScript_withoutUserId_shouldError", () => {
         try {
-            const child = child_process_1.execFileSync("node", ["./dist/bin/setPermissions"], { shell: true });
+            const child = (0, child_process_1.execFileSync)("node", ["./dist/bin/setPermissions"], { shell: true });
             expect(true).toBe(false);
         }
         catch (err) {
@@ -13,7 +13,7 @@ describe("setPermissions", () => {
     });
     it("runScript_withAllArgs_shouldComplete", () => {
         try {
-            const child = child_process_1.execFileSync("node", ["./dist/bin/setPermissions", "./rhinospect.conf.json", "-u anotherUser@rhinosw.com", "-c test", "-n test note"], { shell: true });
+            const child = (0, child_process_1.execFileSync)("node", ["./dist/bin/setPermissions", "./rhinospect.conf.json", "-u anotherUser@rhinosw.com", "-c test", "-n test note"], { shell: true });
             expect(true).toBe(true);
         }
         catch (err) {
