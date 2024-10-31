@@ -6,7 +6,7 @@ export class SourceReader {
 
 	private srcRoot = "folderPath";
 
-	constructor( folderPath: string ){
+	constructor( folderPath: string = "" ){
 		this.srcRoot = folderPath;
 	}
 
