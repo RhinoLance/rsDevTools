@@ -6,6 +6,7 @@ export interface IRhinoSpectConfig {
 
 	name: string,	// the name of the configuration section
 	url: string,	// the RhinoSpect server installation.  When using the public Rhinospect server, this will be "https://go.rhinospect.com/"
+	serverName: string, // a friendly name for the server where the module is being updated.
 	token: string,	// a security token used to access the server in the form of a Guid
 	moduleId: string,	// the RhinoSpect module ID to target in the form of a Guid
 	mapFeatureFilePath?: string, 	// a filepath to a JSON file containing map features to be uploaded.

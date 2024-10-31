@@ -113,7 +113,9 @@ export class ApiService implements IApiService {
 			})
 			.then((response: any) => {
 				if (!response.ok) {
-					throw new Error(`Put failed: ${response.status}: ${response.statusText}`);
+					return response.text().then((text: string) => {
+                        throw new Error(`Put failed: ${response.status}: ${response.statusText}: ${text}`);
+                    });
 				}
 
 				return;

@@ -48,8 +48,9 @@ e.g.
                {
                     "name": "TreeHouse01",
                     "url": "https://go.rhinospect.com/",
-                    "token": "aa185ab3-1261-4581-9e85-129838fa1f923",
-                    "moduleId": "3e05119b-11a8-4440-bce4-ad84ff6f01f2",
+                    "serverName": "RhinoSpect prod",
+                    "token": "aa185ab3-1261-4581-zv85-12abc8fa1f923",
+                    "moduleId": "3e05119b-11a8-4q40-bce4-ad2g5f6f01f2",
                     "classMap": [
                          {
                               "className": "Tree House",
@@ -90,11 +91,10 @@ e.g.
 ### UploadSourceFormContent Usage
 
 ```bash
-node transpileSourceForm <targetFile> [version]
+node uploadSourceFormContent -c <configuration name>
 ```
 
-**targetFile** should contain the path to one of the Component's source files, without the extension.
-**version** will be appended to the top of each output file as a comment.
+**configuration_name** should correspond with a the name of a configuration in the configuration file (rhinospect.conf.json).
 
 e.g. The following command will transpile all component files, and append "1.0.0" at the top of each file.
 
