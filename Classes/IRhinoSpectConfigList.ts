@@ -19,6 +19,7 @@ export interface IRhinoSpectClassMap {
 	componentName: string,	// files with the name of <componentName>-formReady.[css|html|js] will be used as the class source
 	sourceFolder: string,	// the folder to look for the source files
 	templateFilePath?: string,	// the path to a class template file which defines non-form related class values.
+	patchList?: IRhinoSpectFilePatch[]	// a patch definition to apply to the template file
 }
 
 export interface IRhinoSpectClassTemplate {
@@ -43,3 +44,9 @@ export interface IRhinoSpectClassTemplate {
 	}
 
 }
+
+export interface IRhinoSpectFilePatch {
+	key: string,	// the key to search for in the template file
+	filePath: string	// the file who's content to replace the key with
+}
+
