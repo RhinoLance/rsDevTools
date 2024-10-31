@@ -1,7 +1,7 @@
 import { IRhinoSpectClassMap, IRhinoSpectConfig } from "./IRhinoSpectConfigList";
 import { ISourceFormParts } from "./ISourceFormParts";
 import { ApiService } from "./RhinoSpect.Api"
-import { IClassDefinition, IMapFeature, IModuleDto, Module } from "./Module";
+import { IClassDefinition, IMapFeature, Module } from "./Module";
 
 export class ModuleProcessor {
 
@@ -56,6 +56,26 @@ export class ModuleProcessor {
 				modClass.source.css = sourceParts.css;
 				modClass.source.html = sourceParts.html;
 				modClass.source.javascript = sourceParts.javascript;
+
+				return;
+			}
+		)
+	}
+
+	public patchClass( classMap: IRhinoSpectClassMap, template: IClassDefinition ): Promise<void>{
+
+		return this.getModule()
+			.then( module => {
+
+				let modClass = module.definition?.find(v=> v.id == classMap.classId);
+
+				if( modClass == undefined){
+					module.definition?.push(template);
+					modClass = template;
+				}
+				else{
+					Object.assign(modClass, template);
+				}
 
 				return;
 			}
