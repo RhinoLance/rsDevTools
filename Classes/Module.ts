@@ -73,7 +73,7 @@
 		name: string,
 		id: string,
 		type: FormType,
-		icon: string,
+		icon: string|IMarkerDef,
 		statusDef: IStatusDef[],
 		ratingDef: IRatingDef[],
 		fieldList: {
@@ -92,6 +92,13 @@
 			css: string
 		}
 
+	}
+
+	export interface IMarkerDef {
+		clusterRenderer?: string,
+		pointRenderer?: string,
+		source?: string,
+		layers?: string
 	}
 
 	export enum FormType {
