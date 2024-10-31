@@ -78,7 +78,8 @@ function main(program: any, configPath?: string ) {
 			promiseList.push( processor.updateClass(v, parts, template ) );
 		}
 		catch (ex) {
-			error( ex.message );
+			
+			error( `${(ex instanceof Error) ? ex.message : ex}` );
 		}
 
 	});
@@ -115,7 +116,7 @@ function getConfig( configPath?: string, configName?: string ): IRhinoSpectConfi
 		config = configFileObj.publishConfigurationList.find(v=> v.name == (configName ?? "default") );
 	}
 	catch(ex) {
-		fatal(`There was an error reading the configuration file.  Please ensure that you either specify a file path, or have a rhinospect.conf.json in your project's root folder.  Error: ${ex.message}`);
+		fatal(`There was an error reading the configuration file.  Please ensure that you either specify a file path, or have a rhinospect.conf.json in your project's root folder.  Error: ${(ex instanceof Error) ? ex.message : ex}`);
 	}
 
 	if( !config ){

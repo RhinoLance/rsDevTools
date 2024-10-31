@@ -13,7 +13,8 @@ describe("uploadSourceFormContent", () => {
 
 			expect(true).toBe(false);
 		}
-		catch(err) {
+		catch(err: any) {
+			
 			expect(JSON.stringify(err.stderr.toString('utf8'))).toContain(
 				"error: missing required argument 'configFile'"
 			);
