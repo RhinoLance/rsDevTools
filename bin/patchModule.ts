@@ -10,7 +10,7 @@ import { SourceReader } from "../Classes/SourceReader";
 import { FilePatcher } from "../Classes/FilePatcher";
 
 
-let _configFile: string = "123";
+let _configFile: string = "./rhinospect.conf.json";
 
 const emojis = {
 	happy: "🙂",
@@ -21,11 +21,11 @@ const emojis = {
 	wait: ""
 }
 
-var program: any = new Command("patchModuleClass <configFile>")
+var program: any = new Command("patchModule [configFile]")
 	.version("1.0.0")
 	.arguments('[configFile]')
 	.action((configFile) => {
-		_configFile = configFile;
+		_configFile = configFile || _configFile;
 	})
 	.option("-c --config <string>", "Specify the configuration to run.  If not specified it will use the default configuration.")
 	.parse(process.argv);
@@ -80,9 +80,7 @@ function main(program: any, configPath?: string) {
 
 			action(`Loading template file for ${v.className}`);
 
-			let template = reader.getFileContents(v.templateFilePath);
-
-			const patcher = new FilePatcher(template);
+			const patcher = new FilePatcher(v.templateFilePath);
 
 			v.patchList.map(p => {
 				action(`Loading patch file for ${p.key}`);
@@ -94,13 +92,28 @@ function main(program: any, configPath?: string) {
 
 			const patchedTemplate = patcher.patchedContent;
 
-			action(`Checking that the patched template is valid JSON`);
-			const jsonTemplate = JSON.parse(patchedTemplate);
-			success(`Template is valid JSON`);
+			fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
 
+			action(`Checking that the patched template is valid JSON`);
+			const templateObj = JSON.parse(patchedTemplate);
+			success(`Template is valid JSON`);
+			
 			action(`Retrieving module from server, and patching ${v.className} class`);
 
-			promiseList.push(processor.patchClass(v, jsonTemplate));
+			//Ensure that the relevant properties are strings
+			if( typeof templateObj.icon !== "string" ) 
+				templateObj.icon = JSON.stringify(templateObj.icon);
+
+			if( typeof templateObj.source.css !== "string" )
+				templateObj.source.css = JSON.stringify(templateObj.source.css);
+
+			if( typeof templateObj.source.html !== "string" )
+				templateObj.source.html = JSON.stringify(templateObj.source.html);
+
+			if( typeof templateObj.source.javascript !== "string" )
+				templateObj.source.javascript = JSON.stringify(templateObj.source.javascript);
+			
+			promiseList.push(processor.patchClass(v, templateObj));
 		}
 		catch (ex) {
 			if (ex instanceof Error) {

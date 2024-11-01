@@ -48,5 +48,6 @@ export interface IRhinoSpectClassTemplate {
 export interface IRhinoSpectFilePatch {
 	key: string,	// the key to search for in the template file
 	filePath: string	// the file who's content to replace the key with
+	stringify?: boolean	// if true, the file content will be JSON stringified before being placed
 }
 

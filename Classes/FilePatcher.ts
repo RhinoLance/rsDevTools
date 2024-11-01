@@ -16,7 +16,12 @@ export class FilePatcher {
 
 	public applyPatch( patch: IRhinoSpectFilePatch ): void {
 
-		const patchFile = this._sourceReader.getFileContents(patch.filePath);
+		let patchFile = this._sourceReader.getFileContents(patch.filePath);
+
+		if( patch.stringify === true ){
+			patchFile = JSON.stringify(patchFile);
+		}
+
 		this._patchedContent = this._patchedContent.replace(patch.key, patchFile);
 
 	}

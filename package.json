@@ -1,15 +1,16 @@
 {
   "name": "rs-dev-tools",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "build": "201903141306",
   "description": "Software publishing CLI",
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
+    "patchModule": "./dist/bin/patchModule.js",
     "setPermissions": "./dist/bin/setPermissions.js",
-    "uploadMapFeatures": "./dist/bin/uploadMapFeatures.js",
     "transpileSourceForm": "./dist/bin/transpileSourceForm.js",
+    "uploadMapFeatures": "./dist/bin/uploadMapFeatures.js",
     "uploadSourceFormContent": "./dist/bin/uploadSourceFormContent.js"
   },
   "scripts": {

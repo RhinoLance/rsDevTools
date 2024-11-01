@@ -13,7 +13,7 @@ export class SourceReader {
 	public getSourceParts( componentName: string ): ISourceFormParts {
 
 		const output: ISourceFormParts = <ISourceFormParts><unknown>{};
-		const srcPath = path.resolve(this.srcRoot, `${componentName}-formReady`);
+		const srcPath = path.resolve(this.srcRoot, `${componentName}-uploadReady`);
 
 		output.css = this.getFileContents(`${srcPath}.css`);
 		output.html = this.getFileContents(`${srcPath}.html`);
