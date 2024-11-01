@@ -13,11 +13,13 @@ const emojis = {
 };
 let targetFile = "123";
 let formVersion = "";
-var program = new commander_1.Command("transpileSourceForm <targetFile> [version]")
+let fileSuffix = "";
+var program = new commander_1.Command("transpileSourceForm <targetFile> <suffix> [version]")
     .version("1.0.0")
-    .arguments('<targetFile> [version]')
-    .action((target, version) => {
+    .arguments('<targetFile> <suffix> [version]')
+    .action((target, suffix, version) => {
     targetFile = target;
+    fileSuffix = suffix;
     formVersion = version || "";
 })
     .option("-t --type <string>", "Specify the type of file to update [ts, html, scss].  If not specified it will transpile all files which match the given targetFile.")
@@ -56,7 +58,7 @@ function processFile(source, version, processorName) {
     ]);
     const ext = extMap.get(path.extname(source).toLowerCase());
     const fileParts = path.parse(source);
-    const outputPath = path.join(fileParts.dir, fileParts.name) + `-formReady${ext}`;
+    const outputPath = path.join(fileParts.dir, fileParts.name) + `${fileSuffix}${ext}`;
     const src = readFile(source);
     const tp = new TranspileProcessor_1.TranspileProcessor();
     const output = tp[processorName](src, version);

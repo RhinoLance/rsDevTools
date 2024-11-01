@@ -46,6 +46,21 @@ class ModuleProcessor {
             return;
         });
     }
+    patchClass(classMap, template) {
+        return this.getModule()
+            .then(module => {
+            var _a, _b;
+            let modClass = (_a = module.definition) === null || _a === void 0 ? void 0 : _a.find(v => v.id == classMap.classId);
+            if (modClass == undefined) {
+                (_b = module.definition) === null || _b === void 0 ? void 0 : _b.push(template);
+                modClass = template;
+            }
+            else {
+                Object.assign(modClass, template);
+            }
+            return;
+        });
+    }
     updateMapFeatures(mapFeatures) {
         if (!mapFeatures) {
             throw Error("No map features were provided");

@@ -4,13 +4,13 @@ exports.SourceReader = void 0;
 const fs = require("fs");
 const path = require("path");
 class SourceReader {
-    constructor(folderPath) {
+    constructor(folderPath = "") {
         this.srcRoot = "folderPath";
         this.srcRoot = folderPath;
     }
     getSourceParts(componentName) {
         const output = {};
-        const srcPath = path.resolve(this.srcRoot, `${componentName}-formReady`);
+        const srcPath = path.resolve(this.srcRoot, `${componentName}-uploadReady`);
         output.css = this.getFileContents(`${srcPath}.css`);
         output.html = this.getFileContents(`${srcPath}.html`);
         output.javascript = this.getFileContents(`${srcPath}.js`);
