@@ -82,6 +82,18 @@ export class ModuleProcessor {
 		)
 	}
 
+	public patchModule( template: IClassDefinition ): Promise<void>{
+
+		return this.getModule()
+			.then( module => {
+
+				Object.assign(module, template);
+
+				return;
+			}
+		)
+	}
+
 	public updateMapFeatures( mapFeatures: IMapFeature[] ): Promise<string>{
 
 		if( !mapFeatures ){

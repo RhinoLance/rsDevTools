@@ -11,6 +11,7 @@ export interface IRhinoSpectConfig {
 	moduleId: string,	// the RhinoSpect module ID to target in the form of a Guid
 	mapFeatureFilePath?: string, 	// a filepath to a JSON file containing map features to be uploaded.
 	classMap: IRhinoSpectClassMap[]	// an array of classes, and the settings to set.
+	moduleAttributes?: ITemplateAndPatch	// module attribute patches.
 }
 
 export interface IRhinoSpectClassMap {
@@ -18,6 +19,11 @@ export interface IRhinoSpectClassMap {
 	classId: string,	// the ID of the class.  Where a class with this id is found, it will update it, otherwise insert a new class
 	componentName: string,	// files with the name of <componentName>-formReady.[css|html|js] will be used as the class source
 	sourceFolder: string,	// the folder to look for the source files
+	templateFilePath?: string,	// the path to a class template file which defines non-form related class values.
+	patchList?: IRhinoSpectFilePatch[]	// a patch definition to apply to the template file
+}
+
+export interface ITemplateAndPatch {
 	templateFilePath?: string,	// the path to a class template file which defines non-form related class values.
 	patchList?: IRhinoSpectFilePatch[]	// a patch definition to apply to the template file
 }

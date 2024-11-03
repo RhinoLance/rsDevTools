@@ -50,50 +50,24 @@ function main(program, configPath) {
     const config = getConfig(configPath, options.config);
     const processor = new ModuleProcessor_1.ModuleProcessor(config);
     const promiseList = [];
-    config.classMap.map(v => {
-        action(`Reading local source files for ${v.className}`);
-        const reader = new SourceReader_1.SourceReader();
-        try {
-            if (v.templateFilePath == undefined) {
-                throw Error("No templateFilePath found in the config.");
-            }
-            if (v.patchList == undefined) {
-                throw Error("No patchList found in the config.");
-            }
-            action(`Loading template file for ${v.className}`);
-            const patcher = new FilePatcher_1.FilePatcher(v.templateFilePath);
-            v.patchList.map(p => {
-                action(`Loading patch file for ${p.key}`);
-                patcher.applyPatch(p);
-                success(`Patch successfull`);
-            });
-            success(`All patches applied`);
-            const patchedTemplate = patcher.patchedContent;
-            fs.writeFileSync(`./patched-${v.className}.json`, patchedTemplate);
-            action(`Checking that the patched template is valid JSON`);
-            const templateObj = JSON.parse(patchedTemplate);
-            success(`Template is valid JSON`);
-            action(`Retrieving module from server, and patching ${v.className} class`);
-            //Ensure that the relevant properties are strings
-            if (typeof templateObj.icon !== "string")
-                templateObj.icon = JSON.stringify(templateObj.icon);
-            if (typeof templateObj.source.css !== "string")
-                templateObj.source.css = JSON.stringify(templateObj.source.css);
-            if (typeof templateObj.source.html !== "string")
-                templateObj.source.html = JSON.stringify(templateObj.source.html);
-            if (typeof templateObj.source.javascript !== "string")
-                templateObj.source.javascript = JSON.stringify(templateObj.source.javascript);
-            promiseList.push(processor.patchClass(v, templateObj));
+    try {
+        if (config.moduleAttributes) {
+            promiseList.push(patchModule(config.moduleAttributes, processor));
+            console.log("");
         }
-        catch (ex) {
-            if (ex instanceof Error) {
-                fatal(ex.message);
-            }
-            else {
-                console.log('Unexpected error', ex);
-            }
+        if (config.classMap) {
+            promiseList.push(...patchClasses(config, processor));
+            console.log("");
         }
-    });
+    }
+    catch (ex) {
+        if (ex instanceof Error) {
+            fatal(ex.message);
+        }
+        else {
+            console.log('Unexpected error', ex);
+        }
+    }
     Promise.all(promiseList)
         .then(result => {
         success(`Module patched successfully`);
@@ -127,5 +101,69 @@ function getConfig(configPath, configName) {
         throw (`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName !== null && configName !== void 0 ? configName : "default")}" in "${path.resolve(jsonPath)}"`);
     }
     return config;
+}
+function patchClasses(config, processor) {
+    const promiseList = [];
+    config.classMap.map(v => {
+        const reader = new SourceReader_1.SourceReader();
+        if (v.templateFilePath == undefined) {
+            throw Error("No templateFilePath found in the config.");
+        }
+        if (v.patchList == undefined) {
+            throw Error("No patchList found in the config.");
+        }
+        action(`Loading template file for ${v.className}`);
+        const patcher = new FilePatcher_1.FilePatcher(v.templateFilePath);
+        v.patchList.map(p => {
+            action(`Loading patch file for ${p.key}`);
+            patcher.applyPatch(p);
+            success(`Patch successfull for ${p.key}`);
+        });
+        success(`All class patches applied`);
+        const patchedTemplate = patcher.patchedContent;
+        fs.writeFileSync(`./patched-${v.className}.json`, patchedTemplate);
+        action(`Checking that the patched template is valid JSON`);
+        const templateObj = JSON.parse(patchedTemplate);
+        success(`Template is valid JSON`);
+        action(`Retrieving module from server, and patching ${v.className} class`);
+        //Ensure that the relevant properties are strings
+        if (typeof templateObj.icon !== "string")
+            templateObj.icon = JSON.stringify(templateObj.icon);
+        if (typeof templateObj.source.css !== "string")
+            templateObj.source.css = JSON.stringify(templateObj.source.css);
+        if (typeof templateObj.source.html !== "string")
+            templateObj.source.html = JSON.stringify(templateObj.source.html);
+        if (typeof templateObj.source.javascript !== "string")
+            templateObj.source.javascript = JSON.stringify(templateObj.source.javascript);
+        promiseList.push(processor.patchClass(v, templateObj));
+    });
+    return promiseList;
+}
+function patchModule(config, processor) {
+    if (config.templateFilePath == undefined) {
+        throw Error("No module templateFilePath found in the config.");
+    }
+    if (config.patchList == undefined) {
+        throw Error("No module patchList found in the config.");
+    }
+    action(`Loading template file for module attributes`);
+    const patcher = new FilePatcher_1.FilePatcher(config.templateFilePath);
+    config.patchList.map(p => {
+        action(`Loading patch file for ${p.key}`);
+        patcher.applyPatch(p);
+        success(`Patch successfull for ${p.key}`);
+    });
+    success(`All module attribute patches applied`);
+    const patchedTemplate = patcher.patchedContent;
+    fs.writeFileSync(`./patched-module`, patchedTemplate);
+    action(`Checking that the patched template is valid JSON`);
+    const templateObj = JSON.parse(patchedTemplate);
+    success(`Template is valid JSON`);
+    //Ensure that the relevant properties are strings
+    if (typeof templateObj.mapFeatures !== "string")
+        templateObj.mapFeatures = JSON.stringify(templateObj.mapFeatures);
+    if (typeof templateObj.applets !== "string")
+        templateObj.applets = JSON.stringify(templateObj.applets);
+    return processor.patchModule(templateObj);
 }
 //# sourceMappingURL=patchModule.js.map

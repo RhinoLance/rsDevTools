@@ -4,7 +4,7 @@ import { Command } from "commander";
 import chalk from "chalk";
 import * as fs from 'fs';
 import * as path from 'path';
-import { IRhinoSpectConfig, IRhinoSpectConfigList } from "../Classes/IRhinoSpectConfigList";
+import { IRhinoSpectConfig, IRhinoSpectConfigList, ITemplateAndPatch } from "../Classes/IRhinoSpectConfigList";
 import { ModuleProcessor } from "../Classes/ModuleProcessor";
 import { SourceReader } from "../Classes/SourceReader";
 import { FilePatcher } from "../Classes/FilePatcher";
@@ -63,69 +63,26 @@ function main(program: any, configPath?: string) {
 	const processor = new ModuleProcessor(config);
 
 	const promiseList: Promise<void>[] = [];
-	config.classMap.map(v => {
 
-		action(`Reading local source files for ${v.className}`);
-		const reader = new SourceReader();
+	try{
 
-		try {
-
-			if (v.templateFilePath == undefined) {
-				throw Error("No templateFilePath found in the config.");
-			}
-
-			if (v.patchList == undefined) {
-				throw Error("No patchList found in the config.");
-			}
-
-			action(`Loading template file for ${v.className}`);
-
-			const patcher = new FilePatcher(v.templateFilePath);
-
-			v.patchList.map(p => {
-				action(`Loading patch file for ${p.key}`);
-				patcher.applyPatch(p);
-				success(`Patch successfull`);
-			});
-
-			success(`All patches applied`);
-
-			const patchedTemplate = patcher.patchedContent;
-
-			fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
-
-			action(`Checking that the patched template is valid JSON`);
-			const templateObj = JSON.parse(patchedTemplate);
-			success(`Template is valid JSON`);
-			
-			action(`Retrieving module from server, and patching ${v.className} class`);
-
-			//Ensure that the relevant properties are strings
-			if( typeof templateObj.icon !== "string" ) 
-				templateObj.icon = JSON.stringify(templateObj.icon);
-
-			if( typeof templateObj.source.css !== "string" )
-				templateObj.source.css = JSON.stringify(templateObj.source.css);
-
-			if( typeof templateObj.source.html !== "string" )
-				templateObj.source.html = JSON.stringify(templateObj.source.html);
-
-			if( typeof templateObj.source.javascript !== "string" )
-				templateObj.source.javascript = JSON.stringify(templateObj.source.javascript);
-			
-			promiseList.push(processor.patchClass(v, templateObj));
-		}
-		catch (ex) {
-			if (ex instanceof Error) {
-				fatal(ex.message);
-			} else {
-				console.log('Unexpected error', ex);
-			}
-
-
+		if( config.moduleAttributes) {
+			promiseList.push(patchModule(config.moduleAttributes, processor));
+			console.log("");
 		}
 
-	});
+		if( config.classMap ) {
+			promiseList.push(...patchClasses(config, processor));
+			console.log("");
+		}
+	}
+	catch (ex) {
+		if (ex instanceof Error) {
+			fatal(ex.message);
+		} else {
+			console.log('Unexpected error', ex);
+		}
+	}
 
 	Promise.all(promiseList)
 		.then(result => {
@@ -171,4 +128,103 @@ function getConfig(configPath?: string, configName?: string): IRhinoSpectConfig 
 
 	return config;
 
+}
+
+function patchClasses( config: IRhinoSpectConfig, processor: ModuleProcessor ): Promise<void>[] {
+	
+	const promiseList: Promise<void>[] = [];
+
+	config.classMap.map(v => {
+
+		const reader = new SourceReader();
+
+		if (v.templateFilePath == undefined) {
+			throw Error("No templateFilePath found in the config.");
+		}
+
+		if (v.patchList == undefined) {
+			throw Error("No patchList found in the config.");
+		}
+
+		action(`Loading template file for ${v.className}`);
+
+		const patcher = new FilePatcher(v.templateFilePath);
+
+		v.patchList.map(p => {
+			action(`Loading patch file for ${p.key}`);
+			patcher.applyPatch(p);
+			success(`Patch successfull for ${p.key}`);
+		});
+
+		success(`All class patches applied`);
+
+		const patchedTemplate = patcher.patchedContent;
+
+		fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
+
+		action(`Checking that the patched template is valid JSON`);
+		const templateObj = JSON.parse(patchedTemplate);
+		success(`Template is valid JSON`);
+		
+		action(`Retrieving module from server, and patching ${v.className} class`);
+
+		//Ensure that the relevant properties are strings
+		if( typeof templateObj.icon !== "string" ) 
+			templateObj.icon = JSON.stringify(templateObj.icon);
+
+		if( typeof templateObj.source.css !== "string" )
+			templateObj.source.css = JSON.stringify(templateObj.source.css);
+
+		if( typeof templateObj.source.html !== "string" )
+			templateObj.source.html = JSON.stringify(templateObj.source.html);
+
+		if( typeof templateObj.source.javascript !== "string" )
+			templateObj.source.javascript = JSON.stringify(templateObj.source.javascript);
+		
+		promiseList.push(processor.patchClass(v, templateObj));
+		
+	});
+
+	return promiseList;
+}
+
+function patchModule( config: ITemplateAndPatch, processor: ModuleProcessor ): 
+	Promise<void> {
+
+	if (config.templateFilePath == undefined) {
+		throw Error("No module templateFilePath found in the config.");
+	}
+
+	if (config.patchList == undefined) {
+		throw Error("No module patchList found in the config.");
+	}
+
+	action(`Loading template file for module attributes`);
+
+	const patcher = new FilePatcher(config.templateFilePath);
+	
+	config.patchList.map(p => {
+		action(`Loading patch file for ${p.key}`);
+		patcher.applyPatch(p);
+		success(`Patch successfull for ${p.key}`);
+	});
+
+	success(`All module attribute patches applied`);
+
+	const patchedTemplate = patcher.patchedContent;
+
+	fs.writeFileSync( `./patched-module`, patchedTemplate);
+
+	action(`Checking that the patched template is valid JSON`);
+	const templateObj = JSON.parse(patchedTemplate);
+	success(`Template is valid JSON`);
+
+	//Ensure that the relevant properties are strings
+	if( typeof templateObj.mapFeatures !== "string" ) 
+		templateObj.mapFeatures = JSON.stringify(templateObj.mapFeatures);
+
+	if( typeof templateObj.applets !== "string" )
+		templateObj.applets = JSON.stringify(templateObj.applets);
+
+	return processor.patchModule(templateObj);
 }

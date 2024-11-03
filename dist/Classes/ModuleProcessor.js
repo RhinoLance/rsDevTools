@@ -61,6 +61,13 @@ class ModuleProcessor {
             return;
         });
     }
+    patchModule(template) {
+        return this.getModule()
+            .then(module => {
+            Object.assign(module, template);
+            return;
+        });
+    }
     updateMapFeatures(mapFeatures) {
         if (!mapFeatures) {
             throw Error("No map features were provided");
