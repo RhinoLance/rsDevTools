@@ -213,3 +213,19 @@ Retrieving module 3e05119b-11a8-4440-bce4-ad84ff6f01f2
 putting module 3e05119b-11a8-4440-bce4-ad84ff6f01f2
 🙂 Module succesfully saved to server: TreeHouse01
 ```
+
+# Development Notes
+If you want to make changes to this package whilst testing with an existing project, you can do so by:
+
+1. Clone this repo
+
+2. From your project, install this package with NPM as usual.  
+     ```npm i -D github:RhinoLance/rsDevTools```
+
+3. Once installed, delete the package's folder within node_modules.  
+     ```rm -r ./node_modules/rs-dev-tools```
+
+4. Create a symlink of the rsDevTools clone to the node_modules folder.  
+```New-Item -Path ./rs-dev-tools -ItemType SymbolicLink -Value C:\Users\lance\source\repos\rsDevTools\```
+
+You can now edit this package whilst testing against your other project.
