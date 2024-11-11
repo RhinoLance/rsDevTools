@@ -18,7 +18,7 @@ export class TranspileProcessor {
 
 		let css: string;
 		try{
-			css = sass.renderSync( {data: source} ).css.toString();
+			css = sass.compileString( source ).css.toString();
 		}
 		catch(ex){
 			throw( `There was an error transpiling ${path.basename(source, ".scss")}.  ${ex}`)
