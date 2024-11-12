@@ -78,7 +78,14 @@ function readFile(filePath) {
         data = fs.readFileSync(filePath, 'utf8');
     }
     catch (ex) {
-        throw (`The specified source file could not be found at ${path.resolve(filePath)}`);
+        if (filePath.substring(filePath.length - 5) == ".scss") {
+            // If the file is a scss file, try to read it as a css file instead
+            const newPath = filePath.substring(0, filePath.length - 4) + "css";
+            return readFile(newPath);
+        }
+        else {
+            throw (`The specified source file could not be found at ${path.resolve(filePath)}`);
+        }
     }
     return data;
 }
