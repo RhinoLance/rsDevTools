@@ -31,7 +31,7 @@ export class TranspileProcessor {
 
 	public processTs(source: string, version?: string) {
 
-		const start = source.search(/export class/) +7;
+		const start = source.search(/class/);
 		let truncated = source.substring(start);
 
 		truncated = this.cleanImportStatements(truncated);
