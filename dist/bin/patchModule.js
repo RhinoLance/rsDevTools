@@ -161,9 +161,9 @@ function patchModule(config, processor) {
     success(`Template is valid JSON`);
     //Ensure that the relevant properties are strings
     if (typeof templateObj.mapFeatures !== "string")
-        templateObj.mapFeatures = JSON.stringify(templateObj.mapFeatures);
-    if (typeof templateObj.applets !== "string")
-        templateObj.applets = JSON.stringify(templateObj.applets);
+        //templateObj.mapFeatures = JSON.stringify(templateObj.mapFeatures);
+        if (typeof templateObj.applets !== "string")
+            templateObj.applets = JSON.stringify(templateObj.applets);
     return processor.patchModule(templateObj);
 }
 //# sourceMappingURL=patchModule.js.map
