@@ -160,7 +160,7 @@ function patchClasses( config: IRhinoSpectConfig, processor: ModuleProcessor ): 
 
 		const patchedTemplate = patcher.patchedContent;
 
-		fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
+		//fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
 
 		action(`Checking that the patched template is valid JSON`);
 		const templateObj = JSON.parse(patchedTemplate);
@@ -213,7 +213,7 @@ function patchModule( config: ITemplateAndPatch, processor: ModuleProcessor ):
 
 	const patchedTemplate = patcher.patchedContent;
 
-	fs.writeFileSync( `./patched-module`, patchedTemplate);
+	//fs.writeFileSync( `./patched-module`, patchedTemplate);
 
 	action(`Checking that the patched template is valid JSON`);
 	const templateObj = JSON.parse(patchedTemplate);
