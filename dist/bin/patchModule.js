@@ -121,7 +121,7 @@ function patchClasses(config, processor) {
         });
         success(`All class patches applied`);
         const patchedTemplate = patcher.patchedContent;
-        fs.writeFileSync(`./patched-${v.className}.json`, patchedTemplate);
+        //fs.writeFileSync( `./patched-${v.className}.json`, patchedTemplate);
         action(`Checking that the patched template is valid JSON`);
         const templateObj = JSON.parse(patchedTemplate);
         success(`Template is valid JSON`);
@@ -155,15 +155,13 @@ function patchModule(config, processor) {
     });
     success(`All module attribute patches applied`);
     const patchedTemplate = patcher.patchedContent;
-    fs.writeFileSync(`./patched-module`, patchedTemplate);
+    //fs.writeFileSync( `./patched-module`, patchedTemplate);
     action(`Checking that the patched template is valid JSON`);
     const templateObj = JSON.parse(patchedTemplate);
     success(`Template is valid JSON`);
     //Ensure that the relevant properties are strings
-    if (typeof templateObj.mapFeatures !== "string")
-        //templateObj.mapFeatures = JSON.stringify(templateObj.mapFeatures);
-        if (typeof templateObj.applets !== "string")
-            templateObj.applets = JSON.stringify(templateObj.applets);
+    if (typeof templateObj.applets !== "string")
+        templateObj.applets = JSON.stringify(templateObj.applets);
     return processor.patchModule(templateObj);
 }
 //# sourceMappingURL=patchModule.js.map

@@ -226,6 +226,6 @@ If you want to make changes to this package whilst testing with an existing proj
      ```rm -r ./node_modules/rs-dev-tools```
 
 4. Create a symlink of the rsDevTools clone to the node_modules folder.  
-```New-Item -Path ./rs-dev-tools -ItemType SymbolicLink -Value C:\Users\lance\source\repos\rsDevTools\```
+```New-Item -Path ./node_modules/rs-dev-tools -ItemType SymbolicLink -Value C:\Users\lance\source\repos\rsDevTools```
 
 You can now edit this package whilst testing against your other project.
