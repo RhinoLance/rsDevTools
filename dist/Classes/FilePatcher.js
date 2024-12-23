@@ -17,6 +17,11 @@ class FilePatcher {
         if (patch.stringify === true) {
             patchFile = JSON.stringify(patchFile);
         }
+        if (patch.strippedStringify === true) {
+            const patchString = JSON.stringify(patchFile);
+            const stripped = patchString.substring(1, patchString.length - 1);
+            patchFile = stripped;
+        }
         this._patchedContent = this._patchedContent.replace(patch.key, patchFile);
     }
 }
