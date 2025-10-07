@@ -16,6 +16,20 @@ export class FilePatcher {
 
 	public applyPatch( patch: IRhinoSpectFilePatch ): void {
 
+		if( patch.filePath != undefined ){
+			this.patchWithFile(patch);
+		}
+		else if( patch.replaceWithValue != undefined ){
+			this.patchWithValue(patch);
+		}
+	}
+
+	private patchWithValue( patch: IRhinoSpectFilePatch ): void {
+		this._patchedContent = this._patchedContent.replaceAll(patch.key, patch.replaceWithValue!);
+	}
+
+	private patchWithFile( patch: IRhinoSpectFilePatch ): void {
+		
 		let patchFile = this._sourceReader.getFileContents(patch.filePath);
 		if( patch.stringify === true ){
 			patchFile = JSON.stringify(patchFile);
@@ -27,7 +41,6 @@ export class FilePatcher {
 			patchFile = stripped;
 		}
 
-		this._patchedContent = this._patchedContent.replace(patch.key, patchFile);
-
+		this._patchedContent = this._patchedContent.replaceAll(patch.key, patchFile);
 	}
 }

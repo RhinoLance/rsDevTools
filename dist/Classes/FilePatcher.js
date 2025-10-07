@@ -13,6 +13,17 @@ class FilePatcher {
         return this._patchedContent;
     }
     applyPatch(patch) {
+        if (patch.filePath != undefined) {
+            this.patchWithFile(patch);
+        }
+        else if (patch.replaceWithValue != undefined) {
+            this.patchWithValue(patch);
+        }
+    }
+    patchWithValue(patch) {
+        this._patchedContent = this._patchedContent.replaceAll(patch.key, patch.replaceWithValue);
+    }
+    patchWithFile(patch) {
         let patchFile = this._sourceReader.getFileContents(patch.filePath);
         if (patch.stringify === true) {
             patchFile = JSON.stringify(patchFile);
@@ -22,7 +33,7 @@ class FilePatcher {
             const stripped = patchString.substring(1, patchString.length - 1);
             patchFile = stripped;
         }
-        this._patchedContent = this._patchedContent.replace(patch.key, patchFile);
+        this._patchedContent = this._patchedContent.replaceAll(patch.key, patchFile);
     }
 }
 exports.FilePatcher = FilePatcher;
