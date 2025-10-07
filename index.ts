@@ -1,11 +1,6 @@
 #!/usr/bin/env node 
 
-import { Command } from "commander";
-
-export function hellowWorld(): string {
-
-	return "Hellow world";
-}
+export * from "./Classes/IRhinoSpectConfigList";
 
 /*
 class Startup {
