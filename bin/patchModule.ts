@@ -8,6 +8,8 @@ import { IRhinoSpectConfig, IRhinoSpectConfigList, ITemplateAndPatch } from "../
 import { ModuleProcessor } from "../Classes/ModuleProcessor";
 import { SourceReader } from "../Classes/SourceReader";
 import { FilePatcher } from "../Classes/FilePatcher";
+import { tmpdir } from 'os';
+
 
 
 let _configFile: string = "./rhinospect.conf.json";
@@ -94,6 +96,10 @@ function main(program: any, configPath?: string) {
 		})
 		.then(result => {
 			success(`Module succesfully saved to server`);
+
+			const outPath = `${tmpdir()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0,8)}.json`;
+			fs.writeFileSync( outPath, JSON.stringify(processor.module?.toDto(), null, "\t"));
+			action( `Patched module written to ${outPath}` );
 		})
 		.catch(ex => error("Error: " + ex));
 
@@ -213,14 +219,11 @@ function patchModule( config: ITemplateAndPatch, processor: ModuleProcessor ):
 
 	const patchedTemplate = patcher.patchedContent;
 
-	//fs.writeFileSync( `./patched-module`, patchedTemplate);
-
 	action(`Checking that the patched template is valid JSON`);
 	const templateObj = JSON.parse(patchedTemplate);
 	success(`Template is valid JSON`);
 
 	//Ensure that the relevant properties are strings
-	
 	if( typeof templateObj.applets !== "string" )
 		templateObj.applets = JSON.stringify(templateObj.applets);
 
