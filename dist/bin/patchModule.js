@@ -91,14 +91,14 @@ function getConfig(configPath, configName) {
     try {
         var jsonString = fs.readFileSync(jsonPath, 'utf8');
         var configFileObj = JSON.parse(jsonString);
-        config = configFileObj.publishConfigurationList.find(v => v.name == (configName !== null && configName !== void 0 ? configName : "default"));
+        config = configFileObj.publishConfigurationList.find(v => v.name == (configName ?? "default"));
     }
     catch (ex) {
         const errorMessage = (ex instanceof Error) ? ex.message : ex;
         fatal(`There was an error reading the configuration file.  Please ensure that you either specify a file path, or have a rhinospect.conf.json in your project's root folder.  Error: ${errorMessage}`);
     }
     if (!config) {
-        throw (`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName !== null && configName !== void 0 ? configName : "default")}" in "${path.resolve(jsonPath)}"`);
+        throw (`The specified config section could not be found, or there is no default configuration.\nUnable to find "${(configName ?? "default")}" in "${path.resolve(jsonPath)}"`);
     }
     return config;
 }

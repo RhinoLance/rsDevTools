@@ -9,30 +9,28 @@ class Module {
         }
     }
     fromDto(record) {
-        var _a, _b;
         Object.assign(this, record);
         this.modified = new Date(record.modified);
         this.created = new Date(record.created);
         try {
-            this.definition = JSON.parse((_a = record.definition) !== null && _a !== void 0 ? _a : []);
+            this.definition = JSON.parse(record.definition ?? []);
         }
         catch (ex) {
             throw ("Module definition is invalid.  Inner exception: " + ex.message);
         }
         try {
-            this.mapFeatures = JSON.parse((_b = record.mapFeatures) !== null && _b !== void 0 ? _b : []);
+            this.mapFeatures = JSON.parse(record.mapFeatures ?? []);
         }
         catch (ex) {
             throw ("Module definition is invalid.  Inner exception: " + ex.message);
         }
     }
     toDto() {
-        var _a, _b, _c, _d, _e, _f;
         const record = Object.assign({}, this);
-        record.modified = (_b = (_a = this.modified) === null || _a === void 0 ? void 0 : _a.toISOString()) !== null && _b !== void 0 ? _b : new Date().toISOString();
-        record.created = (_d = (_c = this.created) === null || _c === void 0 ? void 0 : _c.toISOString()) !== null && _d !== void 0 ? _d : new Date().toISOString();
-        record.definition = JSON.stringify((_e = this.definition) !== null && _e !== void 0 ? _e : []);
-        record.mapFeatures = JSON.stringify((_f = this.mapFeatures) !== null && _f !== void 0 ? _f : []);
+        record.modified = this.modified?.toISOString() ?? new Date().toISOString();
+        record.created = this.created?.toISOString() ?? new Date().toISOString();
+        record.definition = JSON.stringify(this.definition ?? []);
+        record.mapFeatures = JSON.stringify(this.mapFeatures ?? []);
         return record;
     }
 }

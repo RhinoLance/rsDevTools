@@ -5,6 +5,7 @@ const ModuleProcessor_1 = require("./ModuleProcessor");
 describe("ModuleProcessor", () => {
     const _config = {
         name: "test",
+        serverName: "test",
         url: "none",
         token: "000",
         moduleId: "000",
