@@ -4,6 +4,10 @@ exports.ModuleProcessor = void 0;
 const RhinoSpect_Api_1 = require("./RhinoSpect.Api");
 const Module_1 = require("./Module");
 class ModuleProcessor {
+    module;
+    apiSvc;
+    config;
+    modulePromise;
     constructor(config) {
         this.config = config;
         this.apiSvc = new RhinoSpect_Api_1.ApiService(config.url, config.token);
@@ -24,8 +28,8 @@ class ModuleProcessor {
             let modClass = module.definition?.find(v => v.id == classMap.classId);
             if (template) {
                 if (modClass == undefined) {
-                    module.definition?.push(template);
                     modClass = template;
+                    module.definition?.push(template);
                 }
                 else {
                     Object.assign(modClass, template);
@@ -38,25 +42,16 @@ class ModuleProcessor {
             }
             modClass.id = classMap.classId;
             modClass.name = classMap.className;
-            modClass.source.css = sourceParts.css;
-            modClass.source.html = sourceParts.html;
-            modClass.source.javascript = sourceParts.javascript;
+            if (sourceParts) {
+                modClass.source.css = sourceParts.css;
+                modClass.source.html = sourceParts.html;
+                modClass.source.javascript = sourceParts.javascript;
+            }
             return;
         });
     }
     patchClass(classMap, template) {
-        return this.getModule()
-            .then(module => {
-            let modClass = module.definition?.find(v => v.id == classMap.classId);
-            if (modClass == undefined) {
-                module.definition?.push(template);
-                modClass = template;
-            }
-            else {
-                Object.assign(modClass, template);
-            }
-            return;
-        });
+        return this.updateClass(classMap, undefined, template);
     }
     patchModule(template) {
         return this.getModule()
@@ -82,6 +77,7 @@ class ModuleProcessor {
         if (!this.module) {
             throw ("No module has been retrieved to push");
         }
+        console.log(JSON.stringify(this.module.toDto()));
         return this.apiSvc.saveModule(this.module.toDto());
     }
 }

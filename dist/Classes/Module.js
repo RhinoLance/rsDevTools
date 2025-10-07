@@ -3,6 +3,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Permissions = exports.FormType = exports.Module = void 0;
 class Module {
+    moduleId;
+    name;
+    password;
+    created;
+    modified;
+    deleted;
+    definition;
+    mapFeatures;
+    colour;
+    archiveAge;
     constructor(record) {
         if (record) {
             this.fromDto(record);

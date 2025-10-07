@@ -8,6 +8,7 @@ const path = require("path");
 const ModuleProcessor_1 = require("../Classes/ModuleProcessor");
 const SourceReader_1 = require("../Classes/SourceReader");
 const FilePatcher_1 = require("../Classes/FilePatcher");
+const os_1 = require("os");
 let _configFile = "./rhinospect.conf.json";
 const emojis = {
     happy: "🙂",
@@ -76,6 +77,9 @@ function main(program, configPath) {
     })
         .then(result => {
         success(`Module succesfully saved to server`);
+        const outPath = `${(0, os_1.tmpdir)()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0, 8)}.json`;
+        fs.writeFileSync(outPath, JSON.stringify(processor.module?.toDto(), null, "\t"));
+        action(`Patched module written to ${outPath}`);
     })
         .catch(ex => error("Error: " + ex));
 }
@@ -155,7 +159,6 @@ function patchModule(config, processor) {
     });
     success(`All module attribute patches applied`);
     const patchedTemplate = patcher.patchedContent;
-    //fs.writeFileSync( `./patched-module`, patchedTemplate);
     action(`Checking that the patched template is valid JSON`);
     const templateObj = JSON.parse(patchedTemplate);
     success(`Template is valid JSON`);

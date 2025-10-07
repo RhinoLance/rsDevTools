@@ -4,8 +4,8 @@ exports.SourceReader = void 0;
 const fs = require("fs");
 const path = require("path");
 class SourceReader {
+    srcRoot = "folderPath";
     constructor(folderPath = "") {
-        this.srcRoot = "folderPath";
         this.srcRoot = folderPath;
     }
     getSourceParts(componentName) {

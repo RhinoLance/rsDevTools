@@ -1,0 +1,26 @@
+{
+	"publishConfigurationList": [
+		{
+			"name": "default",
+			"url": "http://localhost:8817",
+			"token": "aa185ab3-1261-4581-9e85-f9838fa1f923",
+			"moduleId": "08e6c784-58af-455d-8f38-034b6ce9e730",
+			"classMap": [
+				{
+					"sourceFolder": "C:\\Users\\lance\\Projects\\p042 - MDC\\Sub-Projects\\ARFF\\Dev\\Module - ARRD\\app-modules\\src\\app\\components\\hub01",
+					"componentName": "hub01.component",
+					"classId": "Hub01",
+					"className": "Hub",
+					"templateFilePath": ""
+				}
+			]
+		},
+		{
+			"name": "test",
+			"url": "http://localhost:8817",
+			"token": "aa185ab3-1261-4581-9e85-f9838fa1f923",
+			"moduleId": "fdf641c6-625e-4949-a91a-5be382f449b3",
+			"classMap": []
+		}
+	]
+}

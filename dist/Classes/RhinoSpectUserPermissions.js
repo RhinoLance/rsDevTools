@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RhinoSpectUserPermissions = void 0;
 const Bitwise_1 = require("./Bitwise");
 class RhinoSpectUserPermissions {
+    permissions;
     constructor(_permissions) {
         this.permissions = _permissions;
     }

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bitwise = void 0;
 class Bitwise {
+    _bit;
     constructor(mask) {
         this._bit = mask !== undefined ? mask : 0;
     }
