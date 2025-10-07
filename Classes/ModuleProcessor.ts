@@ -5,11 +5,12 @@ import { IClassDefinition, IMapFeature, Module } from "./Module";
 
 export class ModuleProcessor {
 
+	public module?: Module;
+
 	private apiSvc: ApiService;
 	private config: IRhinoSpectConfig;
 	private modulePromise?: Promise<Module>;
-	private module?: Module;
-
+	
 	constructor( config: IRhinoSpectConfig ){
 		this.config = config;
 		this.apiSvc = new ApiService(config.url, config.token);
@@ -28,7 +29,7 @@ export class ModuleProcessor {
 
 	}
 
-	public updateClass( classMap: IRhinoSpectClassMap, sourceParts: ISourceFormParts, template?: IClassDefinition ): Promise<void>{
+	public updateClass( classMap: IRhinoSpectClassMap, sourceParts?: ISourceFormParts, template?: IClassDefinition ): Promise<void>{
 
 		return this.getModule()
 			.then( module => {
@@ -37,8 +38,8 @@ export class ModuleProcessor {
 
 				if( template ){
 					if( modClass == undefined){
-						module.definition?.push(template);
 						modClass = template;
+						module.definition?.push(template);
 					}
 					else{
 						Object.assign(modClass, template);
@@ -53,9 +54,11 @@ export class ModuleProcessor {
 				modClass.id = classMap.classId;
 				modClass.name = classMap.className;
 
-				modClass.source.css = sourceParts.css;
-				modClass.source.html = sourceParts.html;
-				modClass.source.javascript = sourceParts.javascript;
+				if( sourceParts ) {
+					modClass.source.css = sourceParts.css;
+					modClass.source.html = sourceParts.html;
+					modClass.source.javascript = sourceParts.javascript;
+				}
 
 				return;
 			}
@@ -64,22 +67,7 @@ export class ModuleProcessor {
 
 	public patchClass( classMap: IRhinoSpectClassMap, template: IClassDefinition ): Promise<void>{
 
-		return this.getModule()
-			.then( module => {
-
-				let modClass = module.definition?.find(v=> v.id == classMap.classId);
-
-				if( modClass == undefined){
-					module.definition?.push(template);
-					modClass = template;
-				}
-				else{
-					Object.assign(modClass, template);
-				}
-
-				return;
-			}
-		)
+		return this.updateClass( classMap, undefined, template );
 	}
 
 	public patchModule( template: IClassDefinition ): Promise<void>{
@@ -119,6 +107,8 @@ export class ModuleProcessor {
 		if( !this.module ){
 			throw("No module has been retrieved to push");
 		}
+
+		console.log( JSON.stringify(this.module.toDto()) );
 		return this.apiSvc.saveModule( this.module.toDto() )
 
 	}
