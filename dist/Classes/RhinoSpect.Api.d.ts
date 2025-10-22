@@ -65,7 +65,7 @@ export declare namespace ApiService {
     }
     interface IModuleUser {
         moduleId: string;
-        userId: string;
+        userId?: string;
         permissions: number;
         email: string;
         description: string;

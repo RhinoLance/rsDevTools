@@ -210,7 +210,7 @@ function patchModule( config: ITemplateAndPatch, processor: ModuleProcessor ):
 	const patcher = new FilePatcher(config.templateFilePath);
 	
 	config.patchList.map(p => {
-		action(`Loading patch file for ${p.key}`);
+		action(`Loading patch for ${p.key}`);
 		patcher.applyPatch(p);
 		success(`Patch successfull for ${p.key}`);
 	});

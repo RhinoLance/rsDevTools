@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiService = void 0;
+const guid_1 = require("./guid");
 const node_fetch_1 = require("node-fetch");
 class ApiService {
     API_VERSION_PATH = "/api/2.0";
@@ -20,7 +21,17 @@ class ApiService {
     }
     ;
     getUser(userId) {
-        return this.getFromRsApi(`users/${userId}`, "");
+        let suffix = "";
+        if (userId.indexOf("@") != -1) {
+            suffix = `userString/${encodeURIComponent(userId)}`;
+        }
+        else if (guid_1.Guid.isGuid(userId)) {
+            suffix = `users/${userId}`;
+        }
+        else {
+            return Promise.reject(`The user identifier '${userId}' is not valid.  It must be either a userId (Guid) or an email address.`);
+        }
+        return this.getFromRsApi(suffix, "");
     }
     ;
     getModuleUser(moduleId, userId) {
@@ -28,7 +39,7 @@ class ApiService {
     }
     ;
     setModuleUser(data) {
-        return this.putToRsApi(`modules/${data.moduleId}/users/${data.userId}`, data);
+        return this.putToRsApi(`modules/${data.moduleId}/users`, data);
     }
     ;
     buildUrl(urlSuffix, querystring, allowCache = false) {
@@ -51,7 +62,7 @@ class ApiService {
         return (0, node_fetch_1.default)(url)
             .then((response) => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Return Status: ' + response.status + ' ' + response.statusText);
             }
             return response.json();
         })

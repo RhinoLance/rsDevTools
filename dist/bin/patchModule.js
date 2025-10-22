@@ -153,7 +153,7 @@ function patchModule(config, processor) {
     action(`Loading template file for module attributes`);
     const patcher = new FilePatcher_1.FilePatcher(config.templateFilePath);
     config.patchList.map(p => {
-        action(`Loading patch file for ${p.key}`);
+        action(`Loading patch for ${p.key}`);
         patcher.applyPatch(p);
         success(`Patch successfull for ${p.key}`);
     });

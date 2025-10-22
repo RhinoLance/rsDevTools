@@ -58,8 +58,8 @@ function error(message: string){
 }
 
 function fatal(message: string){
-	console.error( emojis.skull + " " + chalk.redBright( message ));
-	process.stderr.write( emojis.skull + " " + chalk.redBright( message ));
+	//console.error( emojis.skull + " " + chalk.redBright( message ));
+	process.stderr.write( message );
 	process.exit(1);
 }
 
@@ -69,33 +69,17 @@ async function main(program: any, configPath?: string  ) {
 	const options = program.opts();
 	const config = getConfig(configPath, options.config);
 	const permissions: IPermissions = options;
-	const userIdArg: string = options.user;
-
+	const userName: string = options.user;
 
 	const apiSvc = new ApiService(config.url, config.token);
 
 	const processor = new PermissionProcessor();
 
-	let userId: string;
-	let email: string = userIdArg.indexOf("@") == -1 ? "" : userIdArg;
-	let moduleUser: ApiService.IModuleUser;
-	try{
-		userId = email.length === 0 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
-		moduleUser = await apiSvc.getModuleUser(config.moduleId, userId);
-	}
-	catch(ex) {
-		throw `There was a problem retrieving the user for '${userIdArg}'\n${ex}`;
-	}
-
-	if( moduleUser == undefined) {
-		//Module user not found, create a new record.
-		moduleUser = {
-			moduleId: config.moduleId,
-			userId: userId,
-			description: options.note,
-			permissions: 0,
-			email: email
-		};
+	const moduleUser: ApiService.IModuleUser = {
+		moduleId: config.moduleId,
+		description: options.note,
+		permissions: 0,
+		email: userName
 	};
 
 	moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
@@ -109,7 +93,7 @@ async function main(program: any, configPath?: string  ) {
 		await apiSvc.setModuleUser(moduleUser);
 	}
 	catch(ex) {
-		throw `There was a problem saving the module permissions for '${userId}' on module '${config.name}'\n${ex}`;
+		throw `There was a problem saving the module permissions for '${userName}' on module '${config.name}'\n${ex}`;
 	}
 
 	success(`Module succesfully saved to server: ${config.name}`);

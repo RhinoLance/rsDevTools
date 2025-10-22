@@ -1,5 +1,10 @@
 export interface IRhinoSpectConfigList {
+    tokens: IRhinoSpectTokenList[];
     publishConfigurationList: IRhinoSpectConfig[];
+}
+export interface IRhinoSpectTokenList {
+    key: string;
+    token: string;
 }
 export interface IRhinoSpectConfig {
     name: string;

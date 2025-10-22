@@ -1,3 +1,4 @@
+import { Guid } from "./guid";
 import {IModuleDto} from "./Module";
 import fetch from 'node-fetch';
 
@@ -30,7 +31,18 @@ export class ApiService implements IApiService {
 
 	public getUser(userId: string): Promise<ApiService.IUser> {
 
-		return this.getFromRsApi(`users/${userId}`, "");
+		let suffix = "";
+		if( userId.indexOf("@") != -1 ) {
+			suffix =`userString/${encodeURIComponent(userId)}`;
+		}
+		else if( Guid.isGuid(userId)) {
+			suffix = `users/${userId}`;
+		}
+		else {
+			return Promise.reject( `The user identifier '${userId}' is not valid.  It must be either a userId (Guid) or an email address.`);
+		}
+
+		return this.getFromRsApi(suffix, "");
 
 	};
 
@@ -42,7 +54,7 @@ export class ApiService implements IApiService {
 
 	public setModuleUser(data: ApiService.IModuleUser): Promise<ApiService.IModuleUser> {
 
-		return this.putToRsApi(`modules/${data.moduleId}/users/${data.userId}`, data);
+		return this.putToRsApi(`modules/${data.moduleId}/users`, data);
 
 	};
 
@@ -72,7 +84,7 @@ export class ApiService implements IApiService {
 		return fetch(url)
 			.then((response: any) => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error('Return Status: ' + response.status + ' ' + response.statusText);
 				}
 
 				return response.json()
@@ -180,7 +192,7 @@ export namespace ApiService {
 
 	export interface IModuleUser {
 		moduleId: string,
-		userId: string,
+		userId?: string,
 		permissions: number,
 		email: string,
 		description: string

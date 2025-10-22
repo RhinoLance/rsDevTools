@@ -47,38 +47,23 @@ function error(message) {
     console.error(emojis.fire + " " + chalk_1.default.redBright(message));
 }
 function fatal(message) {
-    console.error(emojis.skull + " " + chalk_1.default.redBright(message));
-    process.stderr.write(emojis.skull + " " + chalk_1.default.redBright(message));
+    //console.error( emojis.skull + " " + chalk.redBright( message ));
+    process.stderr.write(message);
     process.exit(1);
 }
 async function main(program, configPath) {
     const options = program.opts();
     const config = getConfig(configPath, options.config);
     const permissions = options;
-    const userIdArg = options.user;
+    const userName = options.user;
     const apiSvc = new RhinoSpect_Api_1.ApiService(config.url, config.token);
     const processor = new PermissionProcessor_1.PermissionProcessor();
-    let userId;
-    let email = userIdArg.indexOf("@") == -1 ? "" : userIdArg;
-    let moduleUser;
-    try {
-        userId = email.length === 0 ? userIdArg : (await apiSvc.getUser(userIdArg)).userId;
-        moduleUser = await apiSvc.getModuleUser(config.moduleId, userId);
-    }
-    catch (ex) {
-        throw `There was a problem retrieving the user for '${userIdArg}'\n${ex}`;
-    }
-    if (moduleUser == undefined) {
-        //Module user not found, create a new record.
-        moduleUser = {
-            moduleId: config.moduleId,
-            userId: userId,
-            description: options.note,
-            permissions: 0,
-            email: email
-        };
-    }
-    ;
+    const moduleUser = {
+        moduleId: config.moduleId,
+        description: options.note,
+        permissions: 0,
+        email: userName
+    };
     moduleUser.permissions = processor.calculatePermissions(moduleUser.permissions, permissions);
     console.log(`Options: ${JSON.stringify(options)}`);
     if (options.note) {
@@ -89,7 +74,7 @@ async function main(program, configPath) {
         await apiSvc.setModuleUser(moduleUser);
     }
     catch (ex) {
-        throw `There was a problem saving the module permissions for '${userId}' on module '${config.name}'\n${ex}`;
+        throw `There was a problem saving the module permissions for '${userName}' on module '${config.name}'\n${ex}`;
     }
     success(`Module succesfully saved to server: ${config.name}`);
 }
