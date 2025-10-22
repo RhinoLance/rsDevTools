@@ -26,3 +26,4 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 testResources/transpileSource-formReady.js
+scratch.ts
