@@ -108,7 +108,6 @@ export class ModuleProcessor {
 			throw("No module has been retrieved to push");
 		}
 
-		console.log( JSON.stringify(this.module.toDto()) );
 		return this.apiSvc.saveModule( this.module.toDto() )
 
 	}
