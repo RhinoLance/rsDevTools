@@ -77,7 +77,7 @@ function main(program, configPath) {
     })
         .then(result => {
         success(`Module succesfully saved to server`);
-        const outPath = `${(0, os_1.tmpdir)()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0, 8)}.json`;
+        const outPath = `${(0, os_1.tmpdir)()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/g, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0, 8)}.json`;
         fs.writeFileSync(outPath, JSON.stringify(processor.module?.toDto(), null, "\t"));
         action(`Patched module written to ${outPath}`);
     })
