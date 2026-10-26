@@ -45,7 +45,7 @@ function action(message: string) {
 }
 
 function success(message: string) {
-	console.log(emojis.happy + " " + chalk.greenBright(message));
+	console.log(chalk.greenBright(message));
 }
 
 function error(message: string) {
@@ -95,7 +95,7 @@ function main(program: any, configPath?: string) {
 			return processor.pushModuleToServer();
 		})
 		.then(result => {
-			success(`Module succesfully saved to server`);
+			success(`${emojis.happy} Module succesfully saved to server`);
 
 			const outPath = `${tmpdir()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/g, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0,8)}.json`;
 			fs.writeFileSync( outPath, JSON.stringify(processor.module?.toDto(), null, "\t"));
