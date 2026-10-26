@@ -37,7 +37,7 @@ function action(message) {
     console.log(emojis.wait + " " + chalk_1.default.white(message));
 }
 function success(message) {
-    console.log(emojis.happy + " " + chalk_1.default.greenBright(message));
+    console.log(chalk_1.default.greenBright(message));
 }
 function error(message) {
     console.error(emojis.fire + " " + chalk_1.default.redBright(message));
@@ -76,8 +76,8 @@ function main(program, configPath) {
         return processor.pushModuleToServer();
     })
         .then(result => {
-        success(`Module succesfully saved to server`);
-        const outPath = `${(0, os_1.tmpdir)()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/g, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0, 8)}.json`;
+        success(`${emojis.happy} Module succesfully saved to server`);
+        const outPath = `${os_1.tmpdir()}/${config.name.replace(/[\s<>\:"\\\/\?\*\|]/g, "~")}-${processor.module?.name?.replace(" ", "_")}-${processor.module?.moduleId?.substring(0, 8)}.json`;
         fs.writeFileSync(outPath, JSON.stringify(processor.module?.toDto(), null, "\t"));
         action(`Patched module written to ${outPath}`);
     })

@@ -4,7 +4,7 @@ const child_process_1 = require("child_process");
 describe("uploadMapFeatures", () => {
     it("runScript_withoutConfigFile_shouldError", () => {
         try {
-            const child = (0, child_process_1.execFileSync)("node", ["./dist/bin/uploadMapFeatures"], { shell: true });
+            const child = child_process_1.execFileSync("node", ["./dist/bin/uploadMapFeatures"], { shell: true });
             expect(true).toBe(false);
         }
         catch (err) {
@@ -13,7 +13,7 @@ describe("uploadMapFeatures", () => {
     });
     it("runScript_withoutDataFile_shouldError", () => {
         try {
-            const child = (0, child_process_1.execFileSync)("node", ["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "-d ./path-to-dummy-mapData.json"], { shell: true });
+            const child = child_process_1.execFileSync("node", ["./dist/bin/uploadMapFeatures", "./path-to-dummy-config.json", "-d ./path-to-dummy-mapData.json"], { shell: true });
             expect(true).toBe(false);
         }
         catch (err) {

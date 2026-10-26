@@ -4,10 +4,6 @@ exports.ModuleProcessor = void 0;
 const RhinoSpect_Api_1 = require("./RhinoSpect.Api");
 const Module_1 = require("./Module");
 class ModuleProcessor {
-    module;
-    apiSvc;
-    config;
-    modulePromise;
     constructor(config) {
         this.config = config;
         this.apiSvc = new RhinoSpect_Api_1.ApiService(config.url, config.token);

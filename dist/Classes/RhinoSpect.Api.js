@@ -4,10 +4,10 @@ exports.ApiService = void 0;
 const guid_1 = require("./guid");
 const node_fetch_1 = require("node-fetch");
 class ApiService {
-    API_VERSION_PATH = "/api/2.0";
-    apiUrl = "";
-    TIMEOUT = 1000 * 15; //15 seconds
     constructor(server, token) {
+        this.API_VERSION_PATH = "/api/2.0";
+        this.apiUrl = "";
+        this.TIMEOUT = 1000 * 15; //15 seconds
         this.apiUrl = server.replace(/\/$/, "") + `${this.API_VERSION_PATH}/${token}/`;
     }
     getModuleList() {
@@ -59,7 +59,7 @@ class ApiService {
     ;
     get(url) {
         console.log(`Retrieving ${url}`);
-        return (0, node_fetch_1.default)(url)
+        return node_fetch_1.default(url)
             .then((response) => {
             if (!response.ok) {
                 throw new Error('Return Status: ' + response.status + ' ' + response.statusText);
@@ -86,7 +86,7 @@ class ApiService {
     }
     putPost(operation, url, data, config, noToken) {
         console.log(`${operation}ting ${url}`);
-        return (0, node_fetch_1.default)(url, {
+        return node_fetch_1.default(url, {
             method: operation,
             headers: {
                 'Content-Type': 'application/json',

@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Guid = void 0;
 class Guid {
-    static _validator = new RegExp("^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$", "i");
-    _value;
-    static EMPTY = "00000000-0000-0000-0000-000000000000";
     constructor(guid) {
         if (!guid)
             throw new TypeError("Invalid argument; `value` has no value.");
@@ -50,9 +47,11 @@ class Guid {
         return new Guid(Guid.EMPTY);
     }
     ;
-    static raw = function () {
-        return [Guid.gen(2), Guid.gen(1), Guid.gen(1), Guid.gen(1), Guid.gen(3)].join("-");
-    };
 }
 exports.Guid = Guid;
+Guid._validator = new RegExp("^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$", "i");
+Guid.EMPTY = "00000000-0000-0000-0000-000000000000";
+Guid.raw = function () {
+    return [Guid.gen(2), Guid.gen(1), Guid.gen(1), Guid.gen(1), Guid.gen(3)].join("-");
+};
 //# sourceMappingURL=guid.js.map

@@ -3,15 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilePatcher = void 0;
 const SourceReader_1 = require("./SourceReader");
 class FilePatcher {
-    _templatePath;
-    get patchedContent() {
-        return this._patchedContent;
-    }
-    _patchedContent = "";
-    _sourceReader = new SourceReader_1.SourceReader();
     constructor(_templatePath) {
         this._templatePath = _templatePath;
+        this._patchedContent = "";
+        this._sourceReader = new SourceReader_1.SourceReader();
         this._patchedContent = this._sourceReader.getFileContents(_templatePath);
+    }
+    get patchedContent() {
+        return this._patchedContent;
     }
     applyPatch(patch) {
         if (patch.filePath != undefined) {
